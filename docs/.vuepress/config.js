@@ -43,7 +43,7 @@ module.exports = {
                 items: versioning.linksFor('getting-started/installation.md') // TODO create custom component
             },
             {
-                text: '了解',
+                text: '入门',
                 link: '/tutorial/'
             },
             {
