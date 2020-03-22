@@ -23,7 +23,7 @@
     </a>
     <a href="https://utecca.com">
       <img src="./utecca.svg" alt="Utecca" title="Utecca">
-    </a><a href="https://hash-fun.com">
+    </a><a href="https://haxifang.com">
       <img src="http://cos.haxibiao.com/logo/hxf_logo.svg" alt="哈希坊" title="哈希坊">
     </a>
   </div>
