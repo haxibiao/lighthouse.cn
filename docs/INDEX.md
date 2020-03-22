@@ -5,17 +5,17 @@ actionText: 开始使用  →
 actionLink: /docs/latest
 features:
 - title: 📜 SDL First
-  details: Use the GraphQL Schema Definition Language to describe your data and add functionality through server-side directives.
+  details: 使用 GraphQL 模式定义语言来描述数据并通过服务器端指令添加功能。
 - title: ❤ Laravel Friendly
-  details: Build a GraphQL server on top of an existing Laravel application. Maximize code reuse and work with concepts you already know.
+  details: 在现有 Laravel 应用程序的基础上构建一个 GraphQL 服务器，最大化代码重用并使用您已经知道的概念。
 - title: ⚡ Optimized for Eloquent
-  details: Lighthouse leverages your existing models and creates optimized database queries out of the box.
-footer: Made with ❤ by people
+  details: Lighthouse 利用您现有的模型，并开箱即用地创建优化的数据库查询。
+footer: Made with ❤ by people ，哈希坊提供中文网技术支持.
 ---
 
-### Boilerplate free schema definition
+### 完全可自定义请求模式
 
-Define your schema without any boilerplate by using the GraphQL Schema Definition Language.
+通过使用 GraphQL 模式定义语言，在没有任何样板文件的情况下定义模式。
 
 ```graphql
 type User {
@@ -41,10 +41,9 @@ type Mutation {
 }
 ```
 
-### Query just what you need
+### 客户端可以自由获取需要的数据
 
-In a GraphQL query, the client can get all the data they need - and no more -
-all in a single request.
+在 GraphQL 查询中，客户端可以非常自由的获得他们需要的所有数据，一个请求即可高效完成
 
 ```graphql
 query PostsWithAuthor {
@@ -57,10 +56,10 @@ query PostsWithAuthor {
 }
 ```
 
-### Get predictable results
+### 客户端可获取准确的数据结构
 
-A GraphQL server can tell clients about its schema, so they will always
-know exactly what they will get.
+GraphQL 服务器可以将其架构告知客户端，因此他们将始终确切地知道自己将获得什么。
+
 
 ```json
 {
