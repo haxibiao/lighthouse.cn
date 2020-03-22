@@ -1,10 +1,10 @@
-# Resources
+# GraphQL 相关资源
 
-## Plugins
+## 插件
 
 - [joselfonseca/lighthouse-graphql-passport-auth](https://github.com/joselfonseca/lighthouse-graphql-passport-auth)
 
-## Tutorials
+## 教程
 
 - [Building a GraphQL Server with Laravel](https://www.toptal.com/graphql/laravel-graphql-server-tutorial)
 - [Video Walkthrough by Christopher Moore](https://youtu.be/y19EaW2X7ac)
@@ -13,12 +13,13 @@
 - [Migrate a simple Laravel app to GraphQL](https://medium.com/@sadnub/migrating-to-graphql-on-laravel-with-lighthouse-42bd96d9d73?source=friends_link&sk=302fe4dc73338084b2102e428029feda)
 - [API Auth with Lighthouse and Laravel](https://medium.com/@sadnub/api-auth-and-graphql-in-laravel-d191e277560d?source=friends_link&sk=db92cce084137129dd39e38338c5a558)
 
-## Recommended Packages
+## 推荐的组件
 
 - [mll-lab/laravel-graphql-playground](https://github.com/mll-lab/laravel-graphql-playground)
 - [mll-lab/graphql-php-scalars](https://github.com/mll-lab/graphql-php-scalars)
 - [marvinrabe/laravel-graphql-test](https://github.com/marvinrabe/laravel-graphql-test)
 
-## Recommended Clients
+## 推荐的客户端
 
 - [Buoy - A Lighthouse-client for Angular](https://ngx-buoy.com)
+- [apollographql-client for React native](https://www.apollographql.com/docs/)
