@@ -2,7 +2,12 @@ const versioning = require('./lib/versioning.js')
 
 module.exports = {
     title: 'Lighthouse 中文网',
-    description: 'GraphQL server for Laravel',
+    description: '适用于 Laravel 的 GraphQL 服务器支持',
+    locales: {
+        '/': {
+            lang: 'zh-CN',
+        }
+    },
     head: [
         ['link', {
             rel: 'icon',
@@ -42,7 +47,7 @@ module.exports = {
                 link: '/tutorial/'
             },
             {
-                text: '学习资源',
+                text: '资源',
                 link: '/resources/'
             },
             {
