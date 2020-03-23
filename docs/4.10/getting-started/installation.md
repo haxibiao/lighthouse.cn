@@ -34,7 +34,7 @@ php artisan lighthouse:ide-helper
 
 ## 安装 GraphQL 测试工具
 
-为了充分的提现 GraphQL 它的惊人之处， 我们推荐安装 [GraphQL Playground](https://github.com/mll-lab/laravel-graphql-playground)
+为了充分的体现 GraphQL 它的惊人之处， 我们推荐安装 [GraphQL Playground](https://github.com/mll-lab/laravel-graphql-playground)
 
 ```bash
 composer require mll-lab/laravel-graphql-playground
