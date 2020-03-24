@@ -1,6 +1,6 @@
 module.exports = [
     {
-        title: 'Getting Started',
+        title: '开始 (Getting Started)',
         children: [
             'getting-started/installation',
             'getting-started/configuration',
@@ -8,7 +8,7 @@ module.exports = [
         ]
     },
     {
-        title: 'The Basics',
+        title: '基础 (The Basic)',
         children: [
             'the-basics/schema',
             'the-basics/types',
@@ -28,14 +28,14 @@ module.exports = [
         ]
     },
     {
-        title: "Testing",
+        title: "测试 (Testing)",
         children: [
             'testing/phpunit',
             'testing/extensions',
         ],
     },
     {
-        title: 'Subscriptions',
+        title: '订阅 (Subscriptions)',
         children: [
             ['subscriptions/getting-started', 'Getting Started'],
             'subscriptions/defining-fields',
@@ -45,7 +45,7 @@ module.exports = [
         ]
     },
     {
-        title: 'Digging Deeper',
+        title: '深入 (Digging Deeper)',
         children: [
             'digging-deeper/schema-organisation',
             'digging-deeper/relay',
@@ -56,7 +56,7 @@ module.exports = [
         ]
     },
     {
-        title: 'Custom Directives',
+        title: '自定义 (Custom Directives)',
         children: [
             ['custom-directives/getting-started', 'Getting Started'],
             'custom-directives/type-directives',
@@ -65,7 +65,7 @@ module.exports = [
         ]
     },
     {
-        title: 'Security',
+        title: '安全 (Security)',
         children: [
             'security/authentication',
             'security/authorization',
@@ -75,7 +75,7 @@ module.exports = [
         ]
     },
     {
-        title: 'Performance',
+        title: '性能 (Performance)',
         children: [
             'performance/schema-caching',
             ['performance/n-plus-one', 'The N+1 Query Problem'],
@@ -85,13 +85,13 @@ module.exports = [
         ]
     },
     {
-        title: 'Concepts',
+        title: '概念 (Concepts)',
         children: [
             'concepts/arg-resolvers',
         ]
     },
     {
-        title: 'API Reference',
+        title: 'API 参考 (API Reference)',
         children: [
             'api-reference/directives',
             'api-reference/resolvers',
