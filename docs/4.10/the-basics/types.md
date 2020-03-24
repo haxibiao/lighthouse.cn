@@ -1,13 +1,10 @@
-# Types
+# 类型 (Types)
 
-A GraphQL schema is made out of types. This section describes the different set of types
-and how they can be defined to work with Lighthouse. For a more in-depth reference about types,
-look into the [GraphQL documentation](https://graphql.org/learn/schema/)
+GraphQL模式由类型组成。本节描述了不同类型的集合，以及如何定义它们来使用 Lighthouse。有关类型的更深入的参考资料，请参阅 [GraphQL 文档](https://graphql.org/learn/schema/)
 
-## Object Type
+## 对象类型 (Object Type)
 
-Object types define the resources of your API and are closely related to Eloquent models.
-They must have a unique name and contain a set of fields.
+对象类型定义 API 的资源，并且与有说服力的模型密切相关。它们必须具有唯一的名称并包含一组字段。
 
 ```graphql
 type User {
@@ -24,17 +21,14 @@ type Query {
 }
 ```
 
-## Scalar
+## 标量类型 (Scalar)
 
-Scalar types are the most basic elements of a GraphQL schema. There are a
-few built in scalars, such as `String` or `Int`.
+标量类型是 GraphQL 模式最基本的元素。有几个内建的 Scalar ，例如 `String` 和 `Int`.
 
-Lighthouse provides some scalars that work well with Laravel out of the box,
-read about them in the [API reference for scalars](../api-reference/scalars.md).
+Lighthouse 提供了一些与 Laravel 一些变量类型相对应的 Scalar ，你可以在 [ Scalar 的 API 参考](../api-reference/scalars.md) 中了解它们。
 
-Define your own scalar types by running `php artisan lighthouse:scalar <Scalar name>`
-and including it in your schema. Lighthouse will look for Scalar types in a configurable
-default namespace.
+通过运行定义您自己的 scalar 类型 `php artisan lighthouse:scalar <Scalar name>`
+并把它包含在你的模式中，Lighthouse 将寻找可配置的标量类型默认名称空间。
 
 ```graphql
 scalar ZipCode
@@ -44,24 +38,23 @@ type User {
 }
 ```
 
-You can also use third-party scalars, such as those provided by [mll-lab/graphql-php-scalars](https://github.com/mll-lab/graphql-php-scalars).
-Just `composer require` your package of choice and add a scalar definition to your schema.
-Use the [@scalar](../api-reference/directives.md#scalar) directive to point to any fully qualified class name:
+您还可以使用第三方 scalar ，例如由 [mll-lab/graphql-php-scalars](https://github.com/mll-lab/graphql-php-scalars) 提供的 scalar。
+只需要 `composer require` 您选择的包，并将 schema 定义添加到模式中。
+使用 [@scalar](../api-reference/directives.md#scalar) 指令指向任何完全限定的类名:
 
 ```graphql
 scalar Email @scalar(class: "MLL\\GraphQLScalars\\Email")
 ```
 
-[Learn how to implement your own scalar.](https://webonyx.github.io/graphql-php/type-system/scalar-types/)
+[了解如何实现自己的 scalar](https://webonyx.github.io/graphql-php/type-system/scalar-types/)
 
-## Enum
+## 枚举 (Enum)
 
-Enums are types with a restricted set of values (similar to `enum` found in database migrations).
-They are defined as a list of `UPPERCASE` string keys.
+枚举类型具有一组受限制的值(类似于数据库迁移中发现的 `enum` )。它们被定义为 `UPPERCASE` 键的列表。
 
-### Schema definition
+### 模式定义 (Schema definition)
 
-You can define the actual values through the [@enum](../api-reference/directives.md#enum) directive.
+您可以通过 [@enum](../api-reference/directives.md#enum) 指令定义实际的值。
 
 ```graphql
 enum EmploymentStatus {
@@ -71,7 +64,7 @@ enum EmploymentStatus {
 }
 ```
 
-Now we can use the enum as part of our schema.
+现在我们可以使用 enum 作为模式的一部分。
 
 ```graphql
 type Employee {
@@ -85,8 +78,7 @@ type Query {
 }
 ```
 
-In this example, the underlying values are actually integers. When the models are retrieved from
-the database, the mapping is applied and the integers are converted to the defined string keys.
+在本例中，底层值实际上是整数。从其中检索模型时数据库、映射被应用，整数被转换为定义的字符串键。
 
 ```php
 return [
@@ -96,7 +88,7 @@ return [
 ];
 ```
 
-Queries now return meaningful names instead of magic numbers.
+查询现在返回有意义的名称，而不是神奇的数字。
 
 ```graphql
 {
@@ -119,7 +111,7 @@ Queries now return meaningful names instead of magic numbers.
 }
 ```
 
-If the internal value of the enum is the same as the field name, `@enum` can be omitted:
+如果 enum 的内部值与字段名相同，则可以省略 `@enum` :
 
 ```graphql
 enum Role {
@@ -127,15 +119,13 @@ enum Role {
 }
 ```
 
-The PHP internal value of the field `ADMIN` will be `string('ADMIN')`.
+假如字段的PHP内部值 `ADMIN` 那么就是 `string('ADMIN')`.
 
-### Native PHP definition
+### 原生 PHP 定义 (Native PHP definition)
 
-If you want to reuse enum definitions or constants from PHP, you can also
-register a native PHP enum type [through the TypeRegistry](../digging-deeper/adding-types-programmatically.md#native-php-types).
+如果希望重用 PHP 中的 enum 定义或常量，还可以 [通过 TypeRegistry](../digging-deeper/adding-types-programmatically.md#native-php-types) 来注册一个原生 PHP enum 类型。
 
-Just define a [EnumType](http://webonyx.github.io/graphql-php/type-system/enum-types/) and
-register it:
+只需定义一个[枚举类型 (EnumType)](http://webonyx.github.io/graphql-php/type-system/enum-types/) 并注册它: 
 
 ```php
 use GraphQL\Type\Definition\EnumType;
@@ -166,10 +156,10 @@ $typeRegistry = app(TypeRegistry::class);
 $typeRegistry->register($episodeEnum);
 ```
 
-If you are using [BenSampo/laravel-enum](https://github.com/BenSampo/laravel-enum)
-you can use `Nuwave\Lighthouse\Schema\Types\LaravelEnumType` to construct an enum type from it.
+如果你正在使用 [BenSampo/laravel-enum](https://github.com/BenSampo/laravel-enum)
+您可以使用 `Nuwave\Lighthouse\Schema\Types\LaravelEnumType` 来构造一个 enum 类型。
 
-Given the following enum:
+构造出如下 enum 类:
 
 ```php
 <?php
@@ -187,8 +177,7 @@ final class UserType extends Enum
 }
 ```
 
-This is how you can register it in a ServiceProvider. Make sure to wrap it
-in a `LaravelEnumType`.
+这是您在 ServiceProvider 中注册它的方式，确保用 `LaravelEnumType` 包装它。
 
 ```php
 <?php
@@ -219,25 +208,23 @@ class GraphQLServiceProvider extends ServiceProvider
 }
 ```
 
-By default, the generated type will be named just like the given class.
+默认情况下，生成的类型将与给定的类一样命名。
 
 ```php
 $enum = new LaravelEnumType(UserType::class);
 var_dump($enum->name); // UserType
 ```
 
-You may overwrite the name if the default does not fit or you have a name conflict.
+如果默认名称不合适或存在名称冲突，您可以覆盖该名称。
 
 ```php
 $enum = new LaravelEnumType(UserType::class, 'UserKind');
 var_dump($enum->name); // UserKind
 ```
 
-## Input
+## 输入 (Input)
 
-Input types can be used to describe complex objects for field arguments.
-Beware that while they look similar to Object Types, they behave differently:
-The fields of an Input Type are treated similar to arguments.
+Input 类型可用于描述字段参数的复杂对象。注意，虽然它们看起来类似于对象类型（Object Type），但它们的行为却不同：Input 类型的字段被视为类似于参数。
 
 ```graphql
 input CreateUserInput {
@@ -256,11 +243,9 @@ type Mutation {
 } 
 ```
 
-## Interface
+## 接口 (Interface)
 
-The GraphQL `interface` type is similar to a PHP `Interface`.
-It defines a set of common fields that all implementing types must also provide.
-A common use-case for interfaces with a Laravel project would be polymorphic relationships.
+GraphQL `interface` 类型类似于 PHP `Interface` 。它定义了一组所有实现类型都必须提供的公共字段。Laravel 项目接口的一个常见用例是多态关系。
 
 ```graphql
 interface Named {
@@ -268,7 +253,7 @@ interface Named {
 }
 ```
 
-Object types can implement that interface, given that they provide all its fields.
+对象类型（Object Type）可以实现该接口，前提是它们提供了接口的所有字段。
 
 ```graphql
 type User implements Named {
@@ -277,7 +262,7 @@ type User implements Named {
 }
 ```
 
-The following definition would be invalid.
+下面的定义是无效的
 
 ```graphql
 type User implements Named {
@@ -285,21 +270,18 @@ type User implements Named {
 }
 ```
 
-Interfaces need a way of determining which concrete Object Type is returned by a
-particular query. Lighthouse provides a default type resolver that works by calling
-`class_basename($value)` on the value returned by the resolver.
+接口需要一种方法来确定特定查询返回的具体对象类型。Lighthouse 提供了一个默认的类型解析器，它通过对解析器返回的值调用 `class_basename($value)` 来工作。
 
-You can also provide a custom type resolver. Run `php artisan lighthouse:interface <Interface name>` to create
-a custom interface class. It is automatically put in the default namespace where Lighthouse can discover it by itself.
+接口需要一种方法来确定特定查询返回的具体对象类型。Lighthouse 提供了一个默认的类型解析器，它通过调用解析器返回的值来工作。
 
-Read more about them in the [GraphQL Reference](https://graphql.org/learn/schema/#interfaces) and the
-[docs for graphql-php](http://webonyx.github.io/graphql-php/type-system/interfaces/)
+您还可以提供自定义类型解析器。运行 `php artisan lighthouse:interface <Interface name>` 来创建一个自定义接口类。它被自动放到默认的名称空间中，Lighthouse 可以自己发现它
+
+在 [GraphQL 参考资料](https://graphql.org/learn/schema/#interfaces) 和 [graphql-php 文档](http://webonyx.github.io/graphql-php/type-system/interfaces/) 中了解更多
 
 ## Union
 
-A Union is an abstract type that simply enumerates other Object Types.
-They are similar to interfaces in that they can return different types, but they can not
-have fields defined.
+Union 是一种抽象类型，它只是枚举其他对象类型。
+它们与接口相似，因为它们可以返回不同的类型，但是它们不能定义字段。
 
 ```graphql
 union Person
@@ -315,10 +297,7 @@ type Employee {
 }
 ```
 
-Just like Interfaces, you need a way to determine the concrete Object Type for a Union,
-based on the resolved value. If the default type resolver does not work for you, define your
-own using `php artisan lighthouse:union <Union name>`.
-It is automatically put in the default namespace where Lighthouse can discover it by itself.
+就像接口一样，您需要一种基于已解析值来确定Union的具体对象类型的方法。如果默认类型解析器不适合您，那么使用 `php artisan lighthouse:union <Union name>` 定义自己的解析器。
+它被自动放到默认的名称空间中，Lighthouse 可以自己发现它。
 
-Read more about them in the [GraphQL Reference](https://graphql.org/learn/schema/#union-types) and the
-[docs for graphql-php](http://webonyx.github.io/graphql-php/type-system/unions/)
+去 [GraphQL 参考资料](https://graphql.org/learn/schema/#interfaces) 和 [graphql-php 文档](http://webonyx.github.io/graphql-php/type-system/interfaces/) 中可以了解更多信息

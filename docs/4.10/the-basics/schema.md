@@ -1,12 +1,12 @@
 # Schema
 
-A schema defines the capabilities of a GraphQL server.
-Much like a database schema, it describes the structure and the types your API can return.
+Schema 定义了 GraphQL 服务器的功能。
+与数据库 Schema 非常相似，它描述了 API 可以返回的结构和类型。
 
-## Types
+## 类型 (Types)
 
-Types are the primary building blocks of a GraphQL schema.
-They define the capabilities of your API and the kind of data you can get from it.
+类型是 GraphQL Schema 的主要构建块。
+它们定义了 API 的功能以及可以从中获得的数据类型。
 
 ```graphql
 type User {
@@ -18,16 +18,14 @@ type User {
 }
 ```
 
-## The Root Types
+## Root 类型 (The Root Types)
 
-There can be up to 3 special *root types* in a GraphQL schema.
-They define the root fields that a query may have. While they are
-all [Object Types](types.md#object-type), they differ in functionality.
+在一个 GraphQL Schema 中最多可以有 3 种特殊的 Root 类型。它们定义查询可能具有的 Root 字段。尽管它们都是 [对象类型](types.md#object-type) 但是它们的作用都是不同的。
 
-### Query
+### 查询 (Query)
 
-Every GraphQL schema must have a `Query` type which contains the queries your API offers.
-Think of queries as REST resources which can take arguments and return a fixed result.
+每个 GraphQL Schema 都必须有一个 `Query` 类型，该类型包含API提供的查询。
+可以将查询看作是可以接受参数并返回固定结果的 REST 资源。
 
 ```graphql
 type Query {
@@ -37,10 +35,9 @@ type Query {
 }
 ```
 
-### Mutation
+### 变更 (Mutation)
 
-In contrast to the `Query` type, the fields of the `Mutation` type are
-allowed to change data on the server.
+与 `Query` 类型不同，允许使用 `Mutation` 类型的字段更改服务器上的数据。
 
 ```graphql
 type Mutation {
@@ -50,10 +47,9 @@ type Mutation {
 }
 ```
 
-### Subscription
+### 订阅 (Subscription)
 
-Rather than providing a single response, the fields of the `Subscription` type
-return a stream of responses, with real-time updates.
+`Subscription` 类型的字段不是提供一个响应，而是返回一个响应流，并提供实时更新。
 
 ```graphql
 type Subscription {
