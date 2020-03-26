@@ -1,4 +1,4 @@
-# Schema
+# 模式 (Schema)
 
 Schema 定义了 GraphQL 服务器的功能。
 与数据库 Schema 非常相似，它描述了 API 可以返回的结构和类型。
