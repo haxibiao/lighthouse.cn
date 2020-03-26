@@ -1,11 +1,10 @@
-# Testing with PHPUnit
+# 使用 PHPUnit 测试
 
-Lighthouse makes it easy to add automated tests through PHPUnit.
+Lighthouse 好不一样，它让 PHPUnit 测试也变得更容易。
 
-## Setup
+## 设置 (Setup)
 
-Lighthouse offers some useful test helpers that make it easy to call your API
-from within a PHPUnit test. Just add the `MakesGraphQLRequests` trait to your test class.
+Lighthouse 提供了一些有用的测试助手，可以轻松地在 PHPUnit 测试中调用您的 API。 只需将“MakesGraphQLRequests”特征添加到测试类即可。
 
 ```diff
 <?php
@@ -22,11 +21,11 @@ abstract class TestCase extends BaseTestCase
 }
 ```
 
-## Running Queries
+## 开启您的测试之旅 (Running Queries)
 
-The most natural way of testing your GraphQL API is to run actual GraphQL queries.
+测试 GraphQL API 的最简单的方法是运行实际的 GraphQL 查询。
 
-The `graphQL` test helper runs a query on your GraphQL endpoint and returns a `TestResponse`. 
+Lighthourse 中的一员，`graphQL` 测试助手在您的 GraphQL 端点上运行查询并返回`TestResponse`。
 
 ```php
 public function testQueriesPosts(): void
@@ -42,7 +41,7 @@ public function testQueriesPosts(): void
 }
 ```
 
-If you want to use variables within your query, pass an associative array as the second argument:
+如果要在查询中使用变量，请传递关联数组作为第二个参数：
 
 ```php
 public function testCreatePost(): void
@@ -59,15 +58,13 @@ public function testCreatePost(): void
 }
 ```
 
-## Assertions
+## 断言 (Assertions)
 
-Now that we know how to query our server in tests, we need to make sure the
-returned results match our expectations.
+现在我们知道了如何在测试中对服务器进行查询的操作，不过我们需要确保返回的结果符合我们的期望。
 
-The returned `TestResponse` conveniently offers assertions that work quite
-well with the JSON data returned by GraphQL.
+返回的`TestResponse`可以方便地提供我们期望 GraphQL 返回的 JSON 数据。
 
-The `assertJson` method asserts that the response is a superset of the given JSON.
+`assertJson` 方法响应的是返回 JSON 的父级。
 
 ```php
 public function testQueriesPosts(): void
@@ -94,7 +91,7 @@ public function testQueriesPosts(): void
 }
 ```
 
-You can also extract data from the response and use it within any assertion.
+您还可以从响应中提取数据，并在任何断言中使用它
 
 ```php
 public function testOrdersUsersByName(): void
@@ -124,12 +121,11 @@ public function testOrdersUsersByName(): void
 }
 ```
 
-## Simulating File Uploads
+## 模拟文件上传 (Simulating File Uploads)
 
-Lighthouse allows you to [upload files](../digging-deeper/file-uploads.md) through GraphQL.
+Lighthouse 允许您通过 GraphQL [文件上传](../digging-deeper/file-uploads.md)。
 
-Since multipart form requests are tricky to construct, you can just use the `multipartGraphQL`
-helper method.
+由于多部分表单请求很难构造，因此您可以使用`multipartGraphQL`辅助方法。
 
 ```php
 $this->multipartGraphQL(
@@ -156,20 +152,19 @@ $this->multipartGraphQL(
 )
 ```
 
-## Introspection
+## 自省 (Introspection)
 
-If you create or manipulate parts of your schema programmatically, you might
-want to test that. You can use introspection to query your final schema in tests.
+当您创建或操作后端的某些部分，想看到创建或操作之后的结果。 您可以使用自省 Introspection 来查询最终结果。
 
-Lighthouse uses the introspection query from [`\GraphQL\Type\Introspection::getIntrospectionQuery()`](https://github.com/webonyx/graphql-php/blob/master/src/Type/Introspection.php).
+Lighthouse 使用来自 [`\GraphQL\Type\Introspection::getIntrospectionQuery()`](https://github.com/webonyx/graphql-php/blob/master/src/Type/Introspection.php) 来完成这个操作。
 
-The `introspect()` helper method runs the full introspection query against your schema.
+`introspect（）`方法针对您的后端某个部分进行完整的自省查询。
 
 ```php
 $introspectionResult = $this->introspect();
 ```
 
-Most often, you will want to look for a specific named type. 
+很多时候，您希望查找特定的命名类型。
 
 ```php
 $generatedType = $this->introspectType('Generated');
@@ -180,7 +175,7 @@ $this->assertSame(
 );
 ```
 
-You can also introspect client directives.
+您还可以使用 directives 指令。
 
 ```php
 $customDirective = $this->introspectDirective('custom');
@@ -188,8 +183,7 @@ $customDirective = $this->introspectDirective('custom');
 
 ## Defer
 
-When sending requests with field containing `@defer`, use the `streamGraphQL()` helper.
-It automatically captures the full streamed response and provides you the returned chunks.
+当发送带有包含 @defer 的字段的请求时，请使用 streamGraphQL（）方法。它会自动捕获完整的流式响应，并为您提供返回的块。
 
 ```php
 $chunks = $this->streamGraphQL(/** @lang GraphQL */ '
@@ -217,7 +211,7 @@ $this->assertSame(
 );
 ```
 
-You can also set up the in-memory stream manually:
+您还可以手动设置内存中的流：
 
 ```php
 $this->setUpDeferStream();
@@ -225,8 +219,8 @@ $this->setUpDeferStream();
 
 ## Lumen
 
-Because the `TestResponse` class is not available in Lumen, you must use a different
-test trait:
+由于 Lumen 中不提供`TestResponse`类，因此您必须使用其他
+测试特征：
 
 ```diff
 <?php
@@ -241,9 +235,9 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
 }
 ```
 
-All the test helpers are called the same as in `MakesGraphQLRequest`, the only
-difference is that they return `$this` instead of a `TestResponse`.
-Assertions work differently as a result:
+所有的测试助手都与“ MakesGraphQLRequest”中的调用相同
+不同之处在于它们返回的是 \$this ，而不是 TestResponse。
+Assertions 断言的结果不同：
 
 ```php
 public function testHelloWorld(): void
