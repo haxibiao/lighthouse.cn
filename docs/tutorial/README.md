@@ -276,7 +276,7 @@ class User extends Authenticatable
 }
 ```
 
-## 魔术方法
+## 魔术方法 (Magic Methods)
 
 让我们修改 `graphql/schema.graphql` 并根据我们创建的有说服力的模型来定义我们的 posts 的模式。
 
