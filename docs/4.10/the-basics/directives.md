@@ -1,18 +1,14 @@
-# Directives
+# 指令 (Directives)
 
-Assuming you read through the previous chapters, you should be familiar with the basics
-of schema definition by now.
+假设您已经通读了前面的章节，那么现在您应该已经熟悉了模式 (schema) 定义的基础知识。
 
-You might have seen some funky extra bits in the schema definitions such as `@paginate`,
-`@rules` or `@hasMany`. Those are called *directives* and are the primary way
-to add functionality to your GraphQL schema.
+您可能已经在模式 (schema) 定义中看到一些奇怪的代码块，比如 `@paginate`，`@rules` 或者 `@hasMany`。这些被称为指令 (directives) ，是向 GraphQL 模式 (schema) 添加功能的主要方式。
 
-## Definition
+## 定义 (Definition)
 
-Directives always begin with an `@` symbol, followed by a unique name. They may be used
-at specified parts of the GraphQL schema.
+指令 (directives) 总是以 `@` 符号开始接上唯一的名称。它们可以在 GraphQL 模式 (schema) 的指定部分使用。
 
-This example directive `@upperCase` may be used on field definitions to UPPERCASE the result.
+这个示例指令 (example directive) `@upperCase` 可以用于需要返回大写结果的字段上。
 
 ```graphql
 directive @upperCase on FIELD_DEFINITION
@@ -22,8 +18,7 @@ type Query {
 }
 ```
 
-Directives may also define arguments to enable a more flexible use, and they can
-be used in multiple places, depending on the [specified directive location](https://facebook.github.io/graphql/June2018/#DirectiveLocation).
+指令 (directives) 也可以定义参数来支持更灵活的使用，它们可以在多个地方使用，具体取决于[指定的指令 (directives) 位置](https://facebook.github.io/graphql/June2018/#DirectiveLocation)。
 
 ```graphql
 directive @append(text: String) on FIELD_DEFINITION | ARGUMENT_DEFINITION
@@ -34,13 +29,11 @@ type Query {
 }
 ```
 
-## Usage
+## 用法 (Usage)
 
-Lighthouse provides a plethora of built-in schema directives that are ready to
-be consumed and can simply be used from within the schema.
+Lighthouse 提供了大量可以使用的内置模式指令 (built-in schema directives)，并且可以在模式 (schema) 中非常简单地使用它们。
 
-The following example is quite dense, but it should give you an idea of what
-directives are capable of.
+下面的示例相当复杂，但它应该能让您了解指令 (directives) 的功能。
 
 ```graphql
 type Query {
@@ -60,8 +53,6 @@ type Query {
 }
 ```
 
-Explore the docs to find out more or look into the [directives API reference](../api-reference/directives.md)
-for a complete list of all available directives.
+请浏览文档以获得更多信息，或者查看[指令 (directives) API参考文档](../api-reference/directives.md)以获得所有可用指令 (directives) 的完整列表。
 
-Implementing your own directives is a great way to add reusable functionality to your schema,
-learn how you can [implement your own directives](../custom-directives/getting-started.md).
+实现自己的指令 (directives) 是向模式 (schema) 添加可重用功能的好方法，了解[如何实现自己的指令](../custom-directives/getting-started.md)。
