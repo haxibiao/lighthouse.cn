@@ -2,7 +2,7 @@
 
 假设您已经通读了前面的章节，那么现在您应该已经熟悉了模式 (schema) 定义的基础知识。
 
-您可能已经在模式 (schema) 定义中看到一些奇怪的代码块，比如 `@paginate`，`@rules` 或者 `@hasMany`。这些被称为指令 (directives) ，是向 GraphQL 模式 (schema) 添加功能的主要方式。
+你可能已经在模式 (schema) 定义中看到一些陌生的注解，比如 `@paginate`，`@rules` 或者 `@hasMany`。这些被称为指令 (directives) ，是向 GraphQL 模式 (schema) 添加功能的主要方式。
 
 ## 定义 (Definition)
 
