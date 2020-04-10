@@ -1,6 +1,8 @@
-# Filtering Subscriptions
+# 筛选订阅（Filtering Subscriptions）
 
-There are times when you'll need to filter out specific events based on the arguments provided by the client. To handle this, you can return a true/false from the `filter` function to indicate whether the client should receive the subscription. For instance, using the following example:
+有时您需要根据客户端提供的参数过滤掉（filter）特定事件（events）。
+要处理此问题，可以从 `filter` 函数返回 true/false ，以指示客户端是否应接收订阅（subscription）。
+例如，使用以下示例：
 
 ```graphql
 subscription onPostUpdated($post_id: ID!) {
@@ -12,7 +14,7 @@ subscription onPostUpdated($post_id: ID!) {
 }
 ```
 
-To ensure only clients who are subscribed to a certain `post_id` receive an update, we can create a `filter`:
+为了确保只有订阅（subscribed）了某个 `post_id` 的客户端才能收到更新，我们可以创建一个 `filter`：
 
 ```php
 namespace App\GraphQL\Subscriptions;

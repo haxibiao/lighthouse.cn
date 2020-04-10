@@ -1,12 +1,10 @@
-# Client Implementations
+# 使用客户端（Client Implementations）
 
-To get you up and running quickly, the following sections show how to use subcriptions
-with common GraphQL client libraries.
+为使您快速入门并运行，以下各节说明如何将订阅（subcriptions）与常见的 GraphQL 客户端库一起使用。
 
 ## Apollo
 
-To use Lighthouse subscriptions with the [Apollo](https://www.apollographql.com/docs/react/)
-client library you will need to create an `apollo-link`
+要将 Lighthouse 订阅（subscriptions） 与 [Apollo](https://www.apollographql.com/docs/react/) 客户端库一起使用的话，您需要创建一个 `apollo-link`
 
 ```js
 import { ApolloLink, Observable } from "apollo-link";
@@ -72,7 +70,7 @@ class PusherLink extends ApolloLink {
 export default PusherLink;
 ```
 
-Then initialize the pusher client and use it in the link stack.
+然后初始化 pusher 客户端，并在链接堆栈（link stack）中使用它。
 
 ```js
 const pusherLink = new PusherLink({
@@ -92,8 +90,7 @@ const link = ApolloLink.from([pusherLink, httpLink(`${API_LOCATION}/graphql`)]);
 
 ## Relay Modern
 
-To use Lighthouse's subscriptions with Relay Modern you will
-need to create a custom handler and inject it into Relay's environment.
+要将 Lighthouse 的订阅（subscriptions）与 Relay Modern 一起使用，您将需要创建一个自定义处理程序并将其注入 Relay 的环境中。
 
 ```js
 import Pusher from "pusher-js";
