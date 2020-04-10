@@ -1,6 +1,6 @@
-# Defining Fields
+# 定义字段（Fields）
 
-Define your subscriptions as field on the root `Subscription` type in your schema.
+在模式（schema）的 Root `Subscription` 类型上将您的订阅（subscriptions）定义为字段（field）。
 
 ```graphql
 type Subscription {
@@ -8,18 +8,15 @@ type Subscription {
 }
 ```
 
-The quickest way to define such a field is through the `artisan` generator command:
+定义这样一个字段最快的方法就是使用命令 `artisan` 来生成。
 
     php artisan lighthouse:subscription PostUpdated
 
-Lighthouse will look for a class with the capitalized name of the field that
-is defined within the default subscription namespace.
-For example, the field `postUpdated` should have a corresponding class at
-`App\GraphQL\Subscriptions\PostUpdated`.
+Lighthouse 将默认查找在订阅（subscription）名称路径 `App\GraphQL\Subscriptions\` 中定义的字段（field）的大写名称的类。
+例如，`postUpdated` 字段（field）就应该在 `App\GraphQL\Subscriptions\PostUpdated` 有一个对应的类。
 
-All subscription field classes **must** implement the abstract class
-`Nuwave\Lighthouse\Schema\Types\GraphQLSubscription` and implement two methods:
-`authorize` and `filter`.
+所有订阅字段类（subscription field class）都**必须**实现抽象类（abstract class）`Nuwave\Lighthouse\Schema\Types\GraphQLSubscription` 并实现
+`authorize` 和 `filter` 两个方法。
 
 ```php
 <?php
@@ -119,6 +116,4 @@ class PostUpdated extends GraphQLSubscription
 }
 ```
 
-If the default namespaces are not working with your application structure
-or you want to be more explicit, you can use the [`@subscription`](../api-reference/directives.md#subscription)
-directive to point to a different class.
+如果默认的名称空间（default namespaces）不适合您的应用程序结构，或者您希望自定义实现类的位置，您可以使用 [`@subscription`](../api-reference/directives.md#subscription) 指令来指向一个不同的类。
