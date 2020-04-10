@@ -32,6 +32,8 @@ giving you full control over your data.
 
 ## [Documentation](https://lighthouse-php.com/)
 
+Lighthouse 中文网：[lighthouse-php.cn](http://lighthouse-php.cn/)
+
 The documentation lives at [lighthouse-php.com](https://lighthouse-php.com/).
 
 If you like reading plain markdown, you can also find the source files in the [docs folder](/docs).
