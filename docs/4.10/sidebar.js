@@ -19,7 +19,7 @@ module.exports = [
     {
         title: 'Eloquent',
         children: [
-            ['eloquent/getting-started', 'Getting Started'],
+            ['eloquent/getting-started', '入门（Getting Started）'],
             'eloquent/relationships',
             'eloquent/polymorphic-relationships',
             'eloquent/soft-deleting',
@@ -37,7 +37,7 @@ module.exports = [
     {
         title: '订阅 (Subscriptions)',
         children: [
-            ['subscriptions/getting-started', 'Getting Started'],
+            ['subscriptions/getting-started', '入门（Getting Started）'],
             'subscriptions/defining-fields',
             'subscriptions/trigger-subscriptions',
             'subscriptions/filtering-subscriptions',
