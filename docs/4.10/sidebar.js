@@ -56,9 +56,9 @@ module.exports = [
         ]
     },
     {
-        title: '自定义 (Custom Directives)',
+        title: '自定义 Directive (Custom Directives)',
         children: [
-            ['custom-directives/getting-started', 'Getting Started'],
+            ['custom-directives/getting-started', '入门（Getting Started）'],
             'custom-directives/type-directives',
             'custom-directives/field-directives',
             'custom-directives/argument-directives',
