@@ -1,23 +1,19 @@
-# Argument Directives
+# 参数指令（Argument Directives）
 
-Argument directives can be applied to a [InputValueDefinition](https://graphql.github.io/graphql-spec/June2018/#InputValueDefinition).
+参数指令可以应用于 [输入值的定义（InputValueDefinition）](https://graphql.github.io/graphql-spec/June2018/#InputValueDefinition).
 
-As arguments may be contained within a list in the schema definition, you must specify
-what your argument should apply to in addition to its function.
+由于参数可能包含在模式定义中的列表中，因此除了其函数外，您必须指定您的参数应该应用于什么。
 
-- If it applies to the individual items within the list,
-  implement the [`\Nuwave\Lighthouse\Support\Contracts\ArgDirective`](https://github.com/nuwave/lighthouse/tree/master/src/Support/Contracts/ArgDirective.php) interface.
-- Else, if it should apply to the whole list,
-  implement the [`\Nuwave\Lighthouse\Support\Contracts\ArgDirectiveForArray`](https://github.com/nuwave/lighthouse/tree/master/src/Support/Contracts/ArgDirectiveForArray.php) interface.
+-   如果它适用于列表中的单个项，实现 [`\Nuwave\Lighthouse\Support\Contracts\ArgDirective`](https://github.com/nuwave/lighthouse/tree/master/src/Support/Contracts/ArgDirective.php) 接口。
+-   否则，如果它应该适用于整个列表，实现 [`\Nuwave\Lighthouse\Support\Contracts\ArgDirectiveForArray`](https://github.com/nuwave/lighthouse/tree/master/src/Support/Contracts/ArgDirectiveForArray.php) 接口。
 
-You must implement exactly one of those two interfaces in order for an argument directive to work.
+要使参数指令工作，必须恰好实现这两个接口中的一个。
 
-## ArgTransformerDirective
+## 参数可变指令（ArgTransformerDirective）
 
-An [`\Nuwave\Lighthouse\Support\Contracts\ArgTransformerDirective`](https://github.com/nuwave/lighthouse/blob/master/src/Support/Contracts/ArgTransformerDirective.php)
-takes an incoming value an returns a new value. 
+这个 [`\Nuwave\Lighthouse\Support\Contracts\ArgTransformerDirective`](https://github.com/nuwave/lighthouse/blob/master/src/Support/Contracts/ArgTransformerDirective.php) 接受一个传入值并返回一个新值。
 
-Let's take a look at the built-in `@trim` directive.
+让我们看看内置的 `@trim` 指令。
 
 ```php
 <?php
@@ -52,18 +48,17 @@ SDL;
 }
 ```
 
-The `transform` method takes an argument which represents the actual incoming value that is given
-to an argument in a query and is expected to transform the value and return it.
+`transform` 方法接受一个参数，该参数表示查询中给定给参数的实际传入值，并期望转换该值并返回该值。
 
-For example, if we have the following schema.
+例如，如果我们有以下模式（Schema）。
 
 ```graphql
 type Mutation {
-  createUser(name: String @trim): User
+    createUser(name: String @trim): User
 }
 ```
 
-When you resolve the field, the argument will hold the "transformed" value.
+解析字段时，参数将保存 "transformed" 的 value。
 
 ```php
 <?php
@@ -84,38 +79,37 @@ class CreateUser
 }
 ```
 
-### Evaluation Order
+### 评估顺序（Evaluation Order）
 
-Argument directives are evaluated in the order that they are defined in the schema.
+参数指令按照它们在模式中定义的顺序计算。
 
 ```graphql
 type Mutation {
-  createUser(
-    password: String @trim @rules(apply: ["min:10,max:20"]) @hash
-  ): User
+    createUser(
+        password: String @trim @rules(apply: ["min:10,max:20"]) @hash
+    ): User
 }
 ```
 
-In the given example, Lighthouse will take the value of the `password` argument and:
-1. Trim any whitespace
-1. Run validation on it
-1. Encrypt the password via `bcrypt`
+在给出的例子中，Lighthouse 将取 `password` 参数的值并:
 
-## ArgBuilderDirective
+1. 去除全部空格
+1. 效验数据格式
+1. 通过 `bcrypt` 加密密码
 
-An [`\Nuwave\Lighthouse\Support\Contracts\ArgBuilderDirective`](https://github.com/nuwave/lighthouse/blob/master/src/Support/Contracts/ArgBuilderDirective.php)
-directive allows using arguments passed by the client to dynamically
-modify the database query that Lighthouse creates for a field.
+## 参数构造器指令（ArgBuilderDirective）
 
-Currently, the following directives use the defined filters for resolving the query:
+这个 [`\Nuwave\Lighthouse\Support\Contracts\ArgBuilderDirective`](https://github.com/nuwave/lighthouse/blob/master/src/Support/Contracts/ArgBuilderDirective.php) 指令允许使用客户端传递的参数来动态修改 Lighthouse 为一个字段创建的数据库查询。
 
-- `@all`
-- `@paginate`
-- `@find`
-- `@first`
-- `@hasMany` `@hasOne` `@belongsTo` `@belongsToMany`
+目前，以下指令使用定义的过滤器来解决查询:
 
-Take the following schema as an example:
+-   `@all`
+-   `@paginate`
+-   `@find`
+-   `@first`
+-   `@hasMany` `@hasOne` `@belongsTo` `@belongsToMany`
+
+以下面的模式（schema）为例:
 
 ```graphql
 type User {
@@ -123,10 +117,9 @@ type User {
 }
 ```
 
-Passing the `category` argument will select only the user's posts
-where the `category` column is equal to the value of the `category` argument.
+传递 `category` 参数将只选择类别列等于 `category` 参数值的用户的文章。
 
-So let's take a look at the built-in `@eq` directive.
+所以，让我们看看内置的 `@eq` 指令。
 
 ```php
 <?php
@@ -141,9 +134,9 @@ class EqDirective extends BaseDirective implements ArgBuilderDirective, DefinedD
     public static function definition(): string
     {
         return /** @lang GraphQL */ <<<'SDL'
-directive @eq(  
+directive @eq(
   """
-  Specify the database column to compare. 
+  Specify the database column to compare.
   Only required if database column has a different name than the attribute in your schema.
   """
   key: String
@@ -168,22 +161,20 @@ SDL;
 }
 ```
 
-The `handleBuilder` method takes two arguments:
+`handleBuilder` 方法有两个参数:
 
-- `$builder`
-The query builder for applying the additional query on to.
-- `$value`
-The value of the argument value that the `@eq` was applied on to.
+-   `$builder`
+    用于应用附加查询的查询生成器。
+-   `$value`
+    应用 `@eq` 的参数值的值。
 
-If you want to use a more complex value for manipulating a query,
-you can build a `ArgBuilderDirective` to work with lists or nested input objects.
-Lighthouse's [`@whereBetween`](../api-reference/directives.md#wherebetween) is one example of this.
+如果希望使用更复杂的值来操作查询，可以构建一个 `ArgBuilderDirective` 来处理列表或嵌套输入对象。
+Lighthouse 的 [`@whereBetween`](../api-reference/directives.md#wherebetween) 就是一个例子。
 
 ```graphql
 type Query {
-    users(
-        createdBetween: DateRange @whereBetween(key: "created_at")
-    ): [User!]! @paginate
+    users(createdBetween: DateRange @whereBetween(key: "created_at")): [User!]!
+        @paginate
 }
 
 input DateRange {
@@ -192,22 +183,20 @@ input DateRange {
 }
 ```
 
-## ArgResolver
+## 参数解析器（ArgResolver）
 
-An [`\Nuwave\Lighthouse\Support\Contracts\ArgResolver`](https://github.com/nuwave/lighthouse/tree/master/src/Support/Contracts/ArgResolver.php)
-directive allows you to compose resolvers for complex nested inputs, similar to the way
-that field resolvers are composed together.
+这个 [`\Nuwave\Lighthouse\Support\Contracts\ArgResolver`](https://github.com/nuwave/lighthouse/tree/master/src/Support/Contracts/ArgResolver.php)
+指令允许你为复杂的嵌套输入组合解析器，类似于组合字段解析器的方式。
 
-For an in-depth explanation of the concept of composing arg resolvers,
-read the [explanation of arg resolvers](../concepts/arg-resolvers.md).
+要深入了解组成参数解析器的概念，请阅读 [参数解析器（ArgResolver）的说明](../concepts/arg-resolvers.md) 。
 
-## ArgManipulator
+## 参数操纵器（ArgManipulator）
 
-An [`\Nuwave\Lighthouse\Support\Contracts\ArgManipulator`](https://github.com/nuwave/lighthouse/tree/master/src/Support/Contracts/ArgManipulator.php)	
-directive can be used to manipulate the schema AST. 
+这个 [`\Nuwave\Lighthouse\Support\Contracts\ArgManipulator`](https://github.com/nuwave/lighthouse/tree/master/src/Support/Contracts/ArgManipulator.php) 
+指令可用于操作模式 AST。
 
-For example, you might want to add a directive that automagically derives the arguments
-for a field based on an object type. A skeleton for this directive might look something like this:
+例如，您可能想添加一个自动派生的参数指令
+用于基于对象类型的字段，这个指令的骨架可能看起来像这样:
 
 ```php
 <?php
