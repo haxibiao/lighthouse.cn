@@ -1,11 +1,11 @@
-# Schema Organisation
+# 模式组（Schema Organisation）
 
-As you add more and more types to your schema, it can grow quite large.
-Learn how to split your schema across multiple files and organise your types.
+随着您向模式（schema）中添加越来越多的类型，它可能会变得很大。
+了解如何将模式（schema）拆分为多个文件并组织类型。
 
-## Schema Imports
+## 模式导入（Schema Imports）
 
-Suppose you created your schema files likes this:
+假设您创建了这样的模式（schema）文件：
 
 ```
 graphql/
@@ -13,23 +13,23 @@ graphql/
 |-- user.graphql
 ```
 
-Lighthouse reads your schema from a single entrypoint, in this case `schema.graphql`.
-You can import other schema files from there to split up your schema into multiple files.
+Lighthouse 从单个入口点读取模式（schema），在本例中为 `schema.graphql` 。
+您可以从那里导入其他模式（schema）文件，以将您的模式（schema）分割为多个文件。
 
 ```graphql
 type Query {
-  user: User
+    user: User
 }
 
 #import user.graphql
 ```
 
-Imports always begin on a separate line with `#import `, followed by the relative path
-to the imported file. The contents of `user.graphql` are pasted in the final schema.
+导入总是在单独的一行上以 `#import` 开始，然后是导入文件的相对路径。
+`user.graphql` 的内容被粘贴到最终的模式中。
 
 ```graphql
 type Query {
-  user: User
+    user: User
 }
 
 type User {
@@ -37,10 +37,11 @@ type User {
 }
 ```
 
-The import statements are followed recursively, so it is easy to organize even the most complex of schemas.
+import 语句是递归执行的，因此即使是最复杂的模式（schema）也很容易组织。
 
-You can also import multiple files using wildcard import syntax.
-For example, if you have your schema files like this:
+您还可以使用通配符导入语法导入多个文件。
+例如，如果你有这样的模式（schema）文件:
+
 ```
 graphql/
   |-- schema.graphql
@@ -49,59 +50,58 @@ graphql/
     |-- category.graphql
 ```
 
-Instead of naming each individual file, you can import multiple files that matches a pattern.
-It will be loaded using PHP's [glob function](http://php.net/manual/function.glob.php).
+您可以导入多个匹配某个模式（schema）的文件，而不是为每个文件命名。
+它将使用 PHP 的 [glob 函数](http://php.net/manual/function.glob.php) 加载。
 
 ```graphql
 #import post/*.graphql
 ```
 
-## Type Extensions
+## 类型扩展（Type Extensions）
 
-Suppose you want to add a new type `Post` to your schema.
-Create a new file `post.graphql` with the schema for that type.
+假设您想在模式中添加一个新类型 `Post` 。
+创建一个新的文件 `post.graphql` 与该类型的模式。
 
 ```graphql
 type Post {
-  title: String
-  author: User @belongsTo
+    title: String
+    author: User @belongsTo
 }
 ```
 
-Then you add an import to your main schema file.
+然后将导入添加到主模式文件中。
 
 ```graphql
 #import post.graphql
 
 type Query {
-  me: User @auth
+    me: User @auth
 }
 ```
 
-Now you want to add a few queries to actually fetch posts. You could add them to the main `Query` type
-in your main file, but that spreads the definition apart, and could also grow quite large over time.
+现在您需要添加一些查询来实际获取 Post 。您可以将它们添加到主文件中的主 `Query` 类型中，但这将分散定义，而且还可能随着时间的推移而变得非常大。
 
-Another way would be to extend the `Query` type and colocate the type definition with its Queries in `post.graphql`.
+另一种方法是扩展 `Query` 类型，并将类型定义与 `post.graphql` 中的查询关联起来。
 
 ```graphql
 type Post {
-  title: String
-  author: User @belongsTo
+    title: String
+    author: User @belongsTo
 }
 
 extend type Query {
-  posts: [Post!]! @paginate
+    posts: [Post!]! @paginate
 }
 ```
 
-The fields in the `extend type` definition are merged with those of the original type.
+`extend type` 定义中的字段将与原始类型中的字段合并。
 
-### Root Definitions
+### Root 定义（Root Definitions）
 
-A valid `Query` type definition with at least one field must be present in the root schema.
-This is because `extend type` needs the original type to get merged into.
+根架构中必须有至少一个字段的有效 `Query` 类型定义。
+这是因为 `extend type` 需要合并到原始类型中。
 
-You can provide an empty `Query` type (without curly braces) in the root schema:
+你可以在 Root 模式中提供一个空的 `Query` 类型(没有花括号):
 
 ```graphql
 type Query
@@ -109,8 +109,7 @@ type Query
 #import post.graphql
 ```
 
-The same applies for mutations: if you want to use them, you can define 
-an empty `Mutation` type (without curly braces) within your root schema:
+对于 mutation 也是一样：如果你想使用它们，你可以在 Root 模式中定义一个空的 `Mutation` 类型(没有花括号)：
 
 ```graphql
 type Query
@@ -120,8 +119,7 @@ type Mutation
 #import post.graphql
 ```
 
-### Extending other types
+### 扩展其他类型（Extending other types）
 
-Apart from object types, you can also extend `input`, `interface` and `enum` types.
-Lighthouse will merge the fields (or values) with the original definition and always
-produce a single type in the final schema.
+除了对象类型，您还可以扩展 `input` 、 `interface` 和 `enum` 类型。
+Lighthouse 会将字段(或值)与原始定义合并，并总是在最终的模式（schema）中生成单个类型。
