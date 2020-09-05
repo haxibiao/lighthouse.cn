@@ -1,19 +1,18 @@
-# Deferred Fields
+# 递延字段（Deferred Fields）
 
 ::: warning
-Currently the `@defer` directive requires Apollo Client in alpha.
-Track the state of the PR here: https://github.com/apollographql/apollo-client/pull/3686
+目前 `@defer` 指令在 alpha 中需要 Apollo 客户端。
+跟踪 PR 的状态：https://github.com/apollographql/apollo-client/pull/3686
 :::
 
-Deferring fields allows you to prioritize fetching data needed to render the most important content
-as fast as possible, and then loading the rest of the page in the background.
+延迟字段允许您尽可能快地对抓取数据进行优先排序，以呈现最重要的内容，然后在后台加载页面的其余部分。
 
-Lighthouse's `DeferExtension` adds support for the experimental `@defer` directive
-provided by Apollo which you can read more about [here](https://www.apollographql.com/docs/react/features/defer-support.html).
+Lighthouse 通过 `DeferExtension` 扩展增加了对实验性的 `@defer` 指令的支持。
+[点击这里了解更多信息](https://www.apollographql.com/docs/react/features/defer-support.html)。
 
-## Setup
+## 设置（Setup）
 
-Add the service provider to your `config/app.php`
+将服务提供者（Service Provider）添加到 `config/app.php` 中
 
 ```php
 'providers' => [

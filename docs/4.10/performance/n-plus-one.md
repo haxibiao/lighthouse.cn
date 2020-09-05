@@ -1,10 +1,8 @@
-# The N+1 Query Problem
+# N+1 查询问题（The N+1 Query Problem）
 
-A common performance pitfall that comes with the nested nature of GraphQL queries
-is the so-called N+1 query problem.
+GraphQL 查询的嵌套特性带来的一个常见的性能缺陷是所谓的 N+1 查询问题。
 
-Let’s imagine we want to fetch a list of posts, and for each post, we want to add on the
-name of the associated author:
+假设我们想要获取一个 post 列表，并且对于每个 post ，我们想要添加关联 author name：
 
 ```graphql
 {
@@ -17,18 +15,13 @@ name of the associated author:
 }
 ```
 
-Following a naive execution strategy, Lighthouse would first query a list of posts,
-then loop over that list and resolve the individual fields.
-The associated author for each post would be lazily loaded, querying the database
-once per post.
+遵循一种简单的执行策略，Lighthouse 将首先查询一个 post list ，然后遍历该 list 并解析各个字段。每个帖子的关联 author 将被延迟加载，因为每个 post 都需要查询一次数据库。
 
-## Eager Loading Relationships
+## 立即加载关系（Eager Loading Relationships）
 
-When dealing with Laravel relationships, [eager loading](https://laravel.com/docs/eloquent-relationships#eager-loading)
-is commonly used to alleviate the N+1 query problem.
+在处理 Laravel 关系时，通常使用 [快速加载（eager loading）](https://laravel.com/docs/eloquent-relationships#eager-loading)来缓解 N+1 查询问题。
 
-You can leverage eager loading by informing Lighthouse of the relationships between your models,
-using directives such as [`@belongsTo`](../api-reference/directives.md#belongsto) and [`@hasMany`](../api-reference/directives.md#hasmany).
+通过使用 [`@belongsTo`](../api-reference/directives.md#belongsto) 和 [`@hasMany`](../api-reference/directives.md#hasmany) 等指令，将模型之间的关系告知 Lighthouse ，您可以利用即时加载。
 
 ```graphql
 type Post {
@@ -42,14 +35,13 @@ type User {
 }
 ```
 
-Under the hood, Lighthouse will batch the relationship queries together in a single database query.
+在幕后，Lighthouse 将把关系查询批处理在一个数据库查询中。
 
-If you require a relation to be loaded for some field, but do not wish to return the relationship itself,
-you can use the [`@with`](../api-reference/directives.md#with) directive.
+如果您需要为某些字段加载一个关系，但不希望返回关系本身，您可以使用 [`@with`](../api-reference/directives.md#with) 指令。
 
-## Data Loader
+## 数据加载器（Data Loader）
 
-`webonyx/graphql-php` allows deferring the actual resolution of a field until it is actually needed,
-read more [in their documentation](http://webonyx.github.io/graphql-php/data-fetching/#solving-n1-problem).
+`webonyx/graphql-php` 允许延迟字段的实际解析，直到真正需要时才进行解析。
+更多信息请 [参阅文档](http://webonyx.github.io/graphql-php/data-fetching/#solving-n1-problem)。
 
-You can extend `\Nuwave\Lighthouse\Execution\DataLoader\BatchLoader` if you require custom batch loading.
+如果您需要自定义批量加载，您可以扩展 `\Nuwave\Lighthouse\Execution\DataLoader\BatchLoader` 批量加载程序。

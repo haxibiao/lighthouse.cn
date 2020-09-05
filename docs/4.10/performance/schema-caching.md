@@ -1,9 +1,8 @@
-# Schema caching
+# 模式缓存（Schema caching）
 
-As your schema grows larger, the construction of the schema from raw `.graphql` files
-becomes more and more costly.
+随着模式越来越大，从原始 `.graphql` 文件构造模式的成本也越来越高。
 
-Make sure to enable schema caching when shipping Lighthouse to production.
+请确保在将 Lighthouse 发送到生产环境时启用模式缓存。
 
 ```php
     /*
@@ -23,6 +22,6 @@ Make sure to enable schema caching when shipping Lighthouse to production.
     ],
 ```
 
-You may clear your schema cache using the [clear-cache](../api-reference/commands.md#clear-cache) artisan command:
+您可以使用 artisan 命令中的 [clear-cache](../api-reference/commands.md#clear-cache) 来清除模式缓存：
 
     php artisan lighthouse:clear-cache
