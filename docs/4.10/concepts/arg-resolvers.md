@@ -1,26 +1,17 @@
-# Arg Resolvers
+# 参数解析器（Arg Resolvers）
 
-To understand the concept behind arg resolvers, you should familiarize yourself with
-[how field resolvers are composed](https://graphql.org/learn/execution/).
+要理解参数解析器（Arg Resolvers）背后的概念，您应该 [熟悉字段解析器（field resolvers）是如何组成的](https://graphql.org/learn/execution/)。
 
-## Motivation
+## 动机（Motivation）
 
-Arg resolvers are an extension of the ideas behind GraphQL field execution,
-applied to input arguments. Since GraphQL queries can be used to fetch complex
-and deeply nested data from the client, it is natural to assume that such complex
-data can also be passed as the input arguments to a query.
+参数解析器是对 GraphQL 字段执行思想的扩展，应用于输入参数。
+由于 GraphQL 查询可用于从客户端获取复杂且深度嵌套的数据，因此很自然地可以假设，也可以将这种复杂数据作为输入参数传递给 query 。
 
-GraphQL's execution engine allows you to write small and focused field resolver functions
-that only care about returning the data that it is immediately responsible for.
-That makes the code much simpler and avoids duplication.
+GraphQL 的执行引擎允许您编写小而集中的字段解析器函数，这些函数只关心返回它直接负责的数据。这使得代码更简单，避免了重复。
 
-However, a single field resolver still has to take care of all the input arguments that
-are passed to it. Handling complex input data in a single function is hard because of their
-dynamic nature. The input given by a client might be nested arbitrarily deep
-and come in many different variations.
+但是，单个字段解析器仍然必须处理传递给它的所有输入参数。在单个函数中处理复杂的输入数据是困难的，因为它们是动态的。客户机提供的输入可以嵌套到任意深度，并且有许多不同的变体。
 
-The following example shows an example mutation that is actually composed out of multiple
-distinct operations.
+下面的示例显示了一个实际由多个不同操作组成的 mutation 示例。
 
 ```graphql
 type Mutation {
@@ -38,8 +29,7 @@ input CreateNoteInput {
 }
 ```
 
-In a single request, we can pass all data relating to a task,
-including related entities such as notes.
+在单个请求中，我们可以传递与任务相关的所有数据，包括 notes 等相关实体。
 
 ```graphql
 mutation CreateTaskWithNotes {
@@ -61,7 +51,7 @@ mutation CreateTaskWithNotes {
 }
 ```
 
-We might resolve that mutation by writing a resolver function that handles all input at once.
+我们可以通过编写一个 resolver 函数一次性处理所有输入来解决这个问题。
 
 ```php
 function createTaskWithNotes($root, array $args): \App\Models\Task {
@@ -82,18 +72,16 @@ function createTaskWithNotes($root, array $args): \App\Models\Task {
 }
 ```
 
-In this contrived example, the function is still pretty simple. However, separation of concerns
-is already violated: A single function is responsible for creating both tasks and notes.
+在这个人为的例子中，函数仍然非常简单。
+但是，已经违反了分离关注点：一个单独的函数负责创建任务和 notes。
 
-We might want to extend our schema to support more operations in the future, such as updating
-a task and creating, updating or deleting notes or other, more deeply nested relations.
-Such changes would force us to duplicate code and increase the complexity of our single function.
+我们可能希望将来扩展架构以支持更多操作，例如更新任务以及创建，更新或删除 notes 或其他更深层嵌套的关系。
+这样的更改将迫使我们复制代码并增加单个函数的复杂性。
 
-## Solution
+## 解决方案（Solution）
 
-Ideally, we would want to write small and focused functions that each deal with just
-a part of the given input arguments. The execution engine should traverse the given
-input and take care of calling the appropriate functions with their respective arguments.
+理想情况下，我们希望编写小而集中的函数，每个函数只处理给定输入参数的一部分。
+执行引擎应该遍历给定的输入，并负责调用带有各自参数的适当函数。
 
 ```php
 function createTask($root, array $args): \App\Models\Task {
@@ -107,11 +95,11 @@ function createTaskNotes(\App\Models\Task $root, array $args): void {
 }
 ```
 
-Lighthouse allows you to attach resolver functions to arguments.
-Complex inputs are automatically split into smaller pieces and passed off to the responsible function.
+Lighthouse 允许将解析器函数附加到参数上。
+复杂的输入被自动分割成更小的部分，并传递给负责的功能。
 
-As Lighthouse uses the SDL as the primary building block, arg resolvers are implemented as directives.
-Here is how we can define a schema that enables sending a nested mutation as in the example above.
+由于 Lighthouse 使用 SDL 作为主要构建块，所以参数解析器被实现为指令。
+下面是我们如何定义允许发送嵌套 mutation 的模式，如上面的示例所示。
 
 ```diff
 type Mutation {
@@ -131,12 +119,11 @@ input CreateNoteInput {
 }
 ```
 
-The `@create` directive will behave differently, based on the context where it is used.
+根据使用的上下文， `@create` 指令的行为会有所不同。
 
-On the `createTask` field, it will create a `Task` model with the given `name`, save it
-to the database and return that instance to Lighthouse.
+在 `createTask` 字段中，它将创建一个具有给定 `name` 的 `Task` 模型，将其保存到数据库中，并将该实例返回给 Lighthouse 。
 
-A simplified, generic implementation of an appropriate field resolver would look something like this:
+一个适当的字段解析器的简化的，通用的实现看起来像这样：
 
 ```php
 <?php
@@ -172,11 +159,9 @@ class CreateDirective extends BaseDirective implements FieldResolver
 }
 ```
 
-The arguments that are nested within `notes` will be handled as a nested argument resolver.
-For each `CreateNoteInput`, the resolver will be called with the previously created `Task`
-and create and attach a related `Note` model.
+嵌套在 `notes` 中的参数将作为嵌套参数解析器处理。对于每个 `CreateNoteInput` ，解析器将与前面创建的 `Task` 一起调用，并创建并附加一个相关的 `Note` 模型。
 
-We can extend our previous implementation of `@create` by allowing it to be used as an `ArgResolver`:
+我们可以扩展之前的 `@create` 实现，允许它作为一个 `ArgResolver` 使用：
 
 ```php
 <?php
@@ -218,4 +203,4 @@ class CreateDirective extends BaseDirective implements FieldResolver, ArgResolve
 }
 ```
 
-You may define your own nested arg resolver directives by implementing [`ArgResolver`](../custom-directives/argument-directives.md#argresolver).
+您可以通过实现 [`ArgResolver`](../custom-directives/argument-directives.md#argresolver) 来定义自己的嵌套参数解析器指令。
