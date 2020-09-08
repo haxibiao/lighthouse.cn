@@ -1,18 +1,16 @@
-# Authentication
+# 认证方式（Authentication）
 
-You can use [standard Laravel mechanisms](https://laravel.com/docs/authentication)
-to authenticate users of your GraphQL API. Stateless guards are recommended for most use cases.
+您可以使用 [标准的 Laravel 机制](https://laravel.com/docs/authentication) 来验证 GraphQL API 的用户。
+在大多数情况下，建议使用无状态防护。
 
-## Global
+## 全局（Global）
 
-Just add middleware trough your `lighthouse.php` configuration.
-As all GraphQL requests are served at a single HTTP endpoint, this will guard your
-entire API against unauthenticated users.
+只需通过 `lighthouse.php` 配置添加中间件。
+由于所有 GraphQL 请求都在单个 HTTP 端点上提供，因此可以保护整个 API 免受未经身份验证的用户的侵害。
 
-## Guard selected fields
+## 保护选定的字段（Guard selected fields）
 
-If you want to guard only selected fields, you can use the [`@guard`](../api-reference/directives.md#guard)
-directive to require authentication for accessing them.
+如果只想保护选定的字段，则可以使用 [`@guard`](../api-reference/directives.md#guard) 指令要求进行身份验证才能访问它们。
 
 ```graphql
 type Query {
@@ -20,8 +18,8 @@ type Query {
 }
 ```
 
-If you need to guard multiple fields, just use [`@guard`](../api-reference/directives.md#guard)
-on a `type` or an `extend type` definition. It will be applied to all fields within that type.
+如果需要保护多个字段，只需对 `type` 或者 `extend type` 定义使用 [`@guard`](../api-reference/directives.md#guard) 。
+它将应用于该类型内的所有字段。
 
 ```graphql
 extend type Query @guard(with: ["api:admin"]){
@@ -30,19 +28,17 @@ extend type Query @guard(with: ["api:admin"]){
 }
 ```
 
-## Get the current user
+## 获取当前用户（Get the current user）
 
-Lighthouse provides a really simple way to fetch the information of the currently authenticated user.
-Just add a field that returns your `User` type and decorate it with the [`@auth`](../api-reference/directives.md#auth) directive.
+Lighthouse 提供了一种非常简单的方法来获取当前已认证用户的信息。
+只需添加一个返回 `User` 类型的字段，并使用 [`@auth`](../api-reference/directives.md#auth) 指令对其进行修饰即可。
 
 ```graphql
 type Query {
   me: User @auth
 }
 ```
-
-Sending the following query will return the authenticated user's info
-or `null` if the request is not authenticated.
+发送以下查询将返回经过身份验证的用户的信息；如果请求未经身份验证，则返回 `null` 。
 
 ```graphql
 {
