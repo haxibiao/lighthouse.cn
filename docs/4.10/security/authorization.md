@@ -1,16 +1,16 @@
-# Authorization
+# 授权规则（Authorization）
 
-Not every user in your application may be allowed to see all data or do any action.
-You can control what they can do by enforcing authorization rules.
+并非您的应用程序中的每个用户都可以查看所有数据或执行任何操作。
+您可以通过执行授权规则来控制他们可以做什么。
 
-## Utilize the Viewer pattern
+## 利用查看器模式（Utilize the Viewer pattern）
 
-A common pattern is to allow users to only access entries that belong to them.
-For example, a user may only be able to see notes they created.
-You can utilize the nested nature of GraphQL queries to naturally limit access to such fields.
+一种常见的模式是允许用户仅访问属于他们的条目。
+例如，用户可能只能看到他们创建的注释。
+您可以利用 GraphQL 查询的嵌套性质来自然地限制对此类字段的访问。
 
-Begin with a field that represents the currently authenticated user, commonly called `me` or `viewer`.
-You can resolve that field quite easily by using the [`@auth`](../api-reference/directives.md#auth) directive.
+从代表当前经过身份验证的用户（通常称为 `me` 或 `viewer`）的字段开始。
+您可以使用 [`@auth`](../api-reference/directives.md#auth) 指令轻松解决该字段。
 
 ```graphql
 type Query {
@@ -22,7 +22,7 @@ type User {
 }
 ```
 
-Now, add related entities that are present as relationships onto the `User` type.
+现在，将作为关系存在的相关实体添加到 `User` 类型上。
 
 ```graphql
 type User {
@@ -36,8 +36,7 @@ type Note {
 }
 ```
 
-Now, authenticated users can query for items that belong to them and are naturally
-limited to seeing just those.
+现在，经过身份验证的用户可以查询属于他们的项目，并且自然只能看到这些项目。
 
 ```graphql
 {
@@ -51,19 +50,18 @@ limited to seeing just those.
 }
 ```
 
-## Restrict fields through policies
+## 通过政策限制字段（Restrict fields through policies）
 
-Lighthouse allows you to restrict field operations to a certain group of users.
-Use the [@can](../api-reference/directives.md#can) directive
-to leverage [Laravel Policies](https://laravel.com/docs/authorization) for authorization.
+Lighthouse 允许你限制特定用户组的字段操作。
+使用 [@can](../api-reference/directives.md#can) 指令来利用 [Laravel 策略（Policies）](https://laravel.com/docs/authorization) 进行授权。
 
-Starting from Laravel 5.7, [authorization of guest users](https://laravel.com/docs/authorization#guest-users) is supported.
-Because of this, Lighthouse does **not** validate that the user is authenticated before passing it along to the policy.
+从 Laravel 5.7开始，支持 [guest 用户授权](https://laravel.com/docs/authorization#guest-users) 。
+因此，Lighthouse 在将用户传递给策略之前 **不会** 验证用户是否已通过身份验证。
 
-### Protect mutations
+### 保护 Mutation（Protect mutations）
 
-As an example, you might want to allow only admin users of your application to create posts.
-Start out by defining `@can` upon a mutation you want to protect:
+例如，您可能希望只允许应用程序的 admin 用户创建 posts。
+可以在你想要保护的 Mutation 上定义  `@can` ：
 
 ```graphql
 type Mutation {
@@ -71,7 +69,7 @@ type Mutation {
 }
 ```
 
-The `create` ability that is referenced in the example above is backed by a Laravel policy:
+上面例子中引用的 `create` 能力是由 Laravel 策略支持的：
 
 ```php
 class PostPolicy
@@ -83,12 +81,11 @@ class PostPolicy
 }
 ```
 
-### Protect specific model instances
+### 保护特定的模型实例（Protect specific model instances）
 
-For some models, you may want to restrict access for specific instances of a model.
-Use the `find` parameter to specify the name of an input argument that is the primary
-key of the model. Lighthouse will use that to find a specific model
-instance against which the permissions should be checked:
+对于某些模型，您可能希望限制对模型的特定实例的访问。
+使用 `find` 参数指定作为模型主键的输入参数的名称。
+Lighthouse 会使用它来找到一个特定的模型实例，它的权限应该被检查：
 
 ```graphql
 type Query {
@@ -106,13 +103,12 @@ class PostPolicy
 }
 ```
 
-Finding models combines nicely with [soft deleting](../eloquent/soft-deleting.md).
-Lighthouse will detect if the query will require a filter for trashed models and
-apply that as needed.
+发现模型（model）和 [软删除（soft deleting）](../eloquent/soft-deleting.md) 结合得很好。
+Lighthouse 将检测查询是否需要一个过滤器来过滤被丢弃的模型，并根据需要应用它。
 
-### Passing additional arguments 
+### 通过附加参数（Passing additional arguments）
 
-You can pass additional arguments to the policy checks by specifying them as `args`:
+你可以通过指定 `args` 来传递额外的参数给策略检查：
 
 ```graphql
 type Mutation {
@@ -131,8 +127,7 @@ class PostPolicy
 }
 ```
 
-You can pass along the client given input data as arguments to the policy checks
-with the `injectArgs` argument:
+您可以通过 `injectArgs` 参数将客户端给定的输入数据作为参数传递给策略检查：
 
 ```graphql
 type Mutation {
@@ -151,8 +146,7 @@ class PostPolicy
 }
 ```
 
-When you combine both ways of passing arguments, the policy will be passed the `injectArgs` as
-the second parameter and the static `args` as the third parameter:
+当你把这两种传递参数的方式结合在一起时，策略将被 `injectArgs` 作为第二个参数传递，而静态 `args` 作为第三个参数传递：
 
 ```php
 class PostPolicy

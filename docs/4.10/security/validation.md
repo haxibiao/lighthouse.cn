@@ -1,10 +1,9 @@
-# Validation
+# 验证（Validation）
 
-## Validating Arguments
+## 验证参数（Validating Arguments）
 
-Lighthouse allows you to use [Laravel's validation](https://laravel.com/docs/validation) for your
-queries and mutations. The simplest way to leverage the built-in validation rules is to use the
-[@rules](../api-reference/directives.md#rules) directive.
+Lighthouse 允许您对查询和突变使用 [Laravel 的验证](https://laravel.com/docs/validation) 。
+利用内置验证规则的最简单方法是使用 [@rules](../api-reference/directives.md#rules) 指令。
 
 ```graphql
 type Mutation {
@@ -14,9 +13,7 @@ type Mutation {
   ): User
 }
 ```
-
-In the case of a validation error, Lighthouse will abort execution and return the validation messages
-as part of the response.
+在验证错误的情况下，Lighthouse 将中止执行，并将验证消息作为响应的一部分返回。
 
 ```graphql
 mutation {
@@ -50,25 +47,25 @@ mutation {
 }
 ```
 
-### Custom Error Messages
+### 自定义错误信息（Custom Error Messages）
 
-You can customize the error message for a particular argument.
+您可以针对特定参数定制错误消息。
 
 ```graphql
 @rules(apply: ["max:140"], messages: { max: "Tweets have a limit of 140 characters"})
 ```
 
-### Custom Validation Rules
+### 自定义验证规则（Custom Validation Rules）
 
-Reference custom validation rules by their fully qualified class name.
+根据完全限定的类名引用自定义验证规则。
 
 ```graphql
 @rules(apply: ["App\\Rules\\MyCustomRule"])
 ```
 
-## Validating Input Objects
+## 验证输入对象（Validating Input Objects）
 
-Rules can be defined upon Input Object Values.
+可以根据输入对象值定义规则。
 
 ```graphql
 input CreatePostInput {
@@ -77,11 +74,9 @@ input CreatePostInput {
 }
 ```
 
-Using the [`unique`](https://laravel.com/docs/5.8/validation#rule-unique)
-validation rule can be a bit tricky.
+使用 [`unique`](https://laravel.com/docs/5.8/validation#rule-unique) 验证规则可能有点棘手。
 
-If the argument is nested within an input object, the argument path will not
-match the column name, so you have to specify the column name explicitly.
+如果参数嵌套在输入对象中，则参数路径将与列名不匹配，因此必须显式指定列名。
 
 ```graphql
 input CreateUserInput {
@@ -89,10 +84,9 @@ input CreateUserInput {
 }
 ```
 
-## Validating Arrays
+## 验证数组（Validating Arrays）
 
-When you are passing in an array as an argument to a field, you might
-want to apply some validation on the array itself, using [@rulesForArray](../api-reference/directives.md#rules)
+当您将数组作为参数传递给字段时，您可能需要使用 [@rulesForArray](../api-reference/directives.md#rules) 对数组本身应用一些验证。
 
 ```graphql
 type Mutation {
@@ -100,9 +94,7 @@ type Mutation {
 }
 ```
 
-You can also combine this with [@rules](../api-reference/directives.md#rules) to validate
-both the size and the contents of an argument array.
-For example, you might require a list of at least 3 valid emails to be passed.
+您还可以将其与 [@rules](../api-reference/directives.md#rules) 结合使用，以验证参数数组的大小和内容。例如，您可能需要传递一个包含至少 3 封有效电子邮件的列表。
 
 ```graphql
 type Mutation {
@@ -114,14 +106,11 @@ type Mutation {
 }
 ```
 
-## Validate Fields
+## 验证字段（Validate Fields）
 
-In some cases, validation rules are more complex and need to use entirely custom logic
-or take multiple arguments into account.
+在某些情况下，验证规则更加复杂，需要使用完全自定义的逻辑或考虑多个参数。
 
-To create a reusable validator that can be applied to fields, extend the base validation
-directive `\Nuwave\Lighthouse\Schema\Directives\ValidationDirective`. Your custom directive
-class should be located in one of the configured default directive namespaces, e.g. `App\GraphQL\Directives`.
+要创建一个可应用于字段的可重用验证器，扩展基本验证指令 `\Nuwave\Lighthouse\Schema\Directives\ValidationDirective` 。你的自定义指令类应该位于一个配置的默认指令名称空间中，例如 `App\GraphQL\Directives` 。
 
 ```php
 <?php
@@ -146,7 +135,7 @@ class UpdateUserValidationDirective extends ValidationDirective
 }
 ```
 
-Use it in your schema upon the field you want to validate.
+在要验证的字段的模式中使用它。
 
 ```graphql
 type Mutation {
@@ -154,7 +143,7 @@ type Mutation {
 }
 ```
 
-You can customize the messages for the given rules by implementing the `messages` function.
+您可以通过实现 `messages` 函数来定制给定规则的消息。
 
 ```php
     /**
