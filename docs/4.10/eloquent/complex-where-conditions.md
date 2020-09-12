@@ -1,15 +1,13 @@
-# Complex Where Conditions
+# 复杂环境（Complex Where Conditions）
 
-Adding query conditions ad-hoc can be cumbersome and limiting when you require
-many different ways to filter query results.
-Lighthouse's `WhereConditions` extension can give advanced query capabilities to clients
-and allow them to apply complex, dynamic WHERE conditions to queries. 
+当您需要许多不同的方式来筛选查询结果时，添加特别的查询条件可能会很麻烦并且有限制。
+Lighthouse 的 `WhereConditions` 扩展可以为客户端提供高级的查询功能，并允许他们将复杂的、动态的 WHERE 条件应用于查询。
 
-## Setup
+## 设置（Setup）
 
-**This is an experimental feature and not included in Lighthouse by default.**
+**这是一个实验性的特性，默认不包含在 Lighthouse 中。**
 
-Add the service provider to your `config/app.php`
+将服务提供者（Service Provider）添加到您的 `config/app.php`
 
 ```php
 'providers' => [
@@ -17,14 +15,13 @@ Add the service provider to your `config/app.php`
 ],
 ```
 
-Install the dependency [mll-lab/graphql-php-scalars](https://github.com/mll-lab/graphql-php-scalars):
+安装依赖 [mll-lab/graphql-php-scalars](https://github.com/mll-lab/graphql-php-scalars):
 
     composer require mll-lab/graphql-php-scalars
 
-## Usage
+## 使用（Usage）
 
-You can use this feature through a set of schema directives that enhance fields
-with advanced filter capabilities.
+您可以通过一组增强字段的模式指令来使用此特性具有先进的过滤功能。
 
 ### @whereConditions
 
@@ -49,7 +46,7 @@ directive @whereConditions(
 ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
-You can apply this directive on any field that performs an Eloquent query:
+您可以将此指令应用于执行 Eloquent 查询的任何字段：
 
 ```graphql
 type Query {
@@ -66,11 +63,8 @@ type Person {
     hair_colour: String!
 }
 ```
-
-Lighthouse automatically generates definitions for an `Enum` type and an `Input` type
-that are restricted to the defined columns, so you do not have to specify them by hand.
-The blank type named `_` will be changed to the actual type.
-Here are the types that will be included in the compiled schema:
+Lighthouse自动生成 `Enum` 类型和 `Input` 类型的定义，这些定义被限制在已定义的列中，因此您不必手动指定它们。
+名为 `_` 的空白类型将被更改为实际类型。下面是将包含在编译模式中的类型:
 
 ```graphql
 "Dynamic WHERE conditions for the `where` argument on the query `people`."
@@ -100,8 +94,8 @@ enum PeopleWhereColumn {
 }
 ```
 
-Alternatively to the `columns` argument, you can also use `columnsEnum` in case you
-want to re-use a list of allowed columns. Here's how your schema could look like:
+除了 `columns` 参数之外，您还可以使用 `columnsEnum` ，以便重用允许的 column 列表。
+你的 schema 应该是这样的：
 
 ```graphql
 type Query {
@@ -123,15 +117,12 @@ enum PersonColumn {
 }
 ```
 
-Lighthouse will still automatically generate the necessary input types.
-But instead of creating enums for the allowed columns, it will simply use the existing `PersonColumn` enum.
+Lighthouse 仍然会自动生成必要的输入类型。但是它不会为允许的列创建枚举，而是简单地使用现有的 `PersonColumn` 枚举。
 
-It is recommended to either use the `columns` or the `columnsEnum` argument.
-When you don't define any allowed columns, clients can specify arbitrary column names as a `String`.
-This approach should by taken with care, as it carries
-potential performance and security risks and offers little type safety.
+建议使用 `columns` 或 `columnsEnum` 参数。当您没有定义任何允许的 column 时，客户机可以将任意 column 名指定为 `String` 。
+应该小心使用这种方法，因为它会带来潜在的性能和安全风险，并且很少提供类型安全性。
 
-A simple query for a person who is exactly 42 years old would look like this:
+对于一个正好 42 years 的人，一个简单的 query 看起来像这样：
 
 ```graphql
 {
@@ -143,10 +134,9 @@ A simple query for a person who is exactly 42 years old would look like this:
 }
 ```
 
-Note that the operator defaults to `EQ` (`=`) if not given, so you could
-also omit it from the previous example and get the same result.
+注意，如果没有给出操作符，则默认为 `EQ` (`=`) ，因此您也可以在前面的示例中省略它，并得到相同的结果。
 
-The following query gets actors over age 37 who either have red hair or are at least 150cm:
+以下查询获取 age 37 以上 red hair 或至少 150cm 的 Actor：
 
 ```graphql
 {
@@ -169,8 +159,8 @@ The following query gets actors over age 37 who either have red hair or are at l
 }
 ```
 
-Some operators require passing lists of values - or no value at all. The following
-query gets people that have no hair and blue-ish eyes:
+一些操作符需要传递值列表 - 或者根本不传递值。
+以下 query 得到的人 no hair 和 blue-ish eyes ：
 
 ```graphql
 {
@@ -187,8 +177,8 @@ query gets people that have no hair and blue-ish eyes:
 }
 ```
 
-Using `null` as argument value does not have any effect on the query.
-This query would retrieve all persons without any condition:
+使用 `null` 作为参数值对查询没有任何影响。
+此查询将检索所有人员，没有任何条件：
 
 ```graphql
 {
@@ -233,8 +223,7 @@ directive @whereHasConditions(
 ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
-This directive works very similar to [`@whereConditions`](#whereconditions), except that
-the conditions are applied to a relation sub query:
+这个指令的工作原理与 [`@whereConditions`](#whereconditions) 非常相似，除了条件是应用于一个关系子查询:
 
 ```graphql
 type Query {
@@ -249,7 +238,7 @@ type Role {
 }
 ```
 
-Again, Lighthouse will auto-generate an `input` and `enum` definition for your query:
+同样，Lighthouse 会为你的 query 自动生成 `input` 和 `enum` 定义:
 
 ```graphql
 "Dynamic WHERE conditions for the `hasRole` argument on the query `people`."
@@ -277,8 +266,7 @@ enum PeopleHasRoleColumn {
 }
 ```
 
-A simple query for a person who has an access level of at least 5, through one of
-their roles, looks like this:
+通过一个 person 对 access level 至少为 5 的人员进行简单查询，如下所示:
 
 ```graphql
 {
@@ -290,8 +278,8 @@ their roles, looks like this:
 }
 ```
 
-You can also query for relationship existence without any condition; simply use an empty object as argument value.
-This query would retrieve all persons that have a role:
+您也可以查询关系存在没有任何条件；只需使用一个空对象作为参数值。
+该查询将检索具有以下角色的所有人员：
 
 ```graphql
 {
@@ -303,8 +291,8 @@ This query would retrieve all persons that have a role:
 }
 ```
 
-Just like with the `@whereCondition` directive, using `null` as argument value does not have any effect on the query.
-This query would retrieve all persons, no matter if they have a role or not:
+就像 `@whereCondition` 指令一样，使用 `null` 作为参数值对查询没有任何影响。
+这个查询将检索所有人员，不管他们是否有角色:
 
 ```graphql
 {
@@ -317,13 +305,13 @@ This query would retrieve all persons, no matter if they have a role or not:
 ```
 
 
-## Custom operator
+## 自定义操作符（Custom operator）
 
-If Lighthouse's default `SQLOperator` does not fit your use case, you can register a custom operator class.
-This may be necessary if your database uses different SQL operators then Lighthouse's default or you
-want to extend/restrict the allowed operators.
+如果 Lighthouse 的默认 `SQLOperator` 不适合您的用例，您可以注册一个自定义操作符类。
+如果你的数据库使用不同的 SQL 操作符然后 Lighthouse 的默认值，或者你想 扩展/限制（extend/restrict）允许的操作符，这可能是必要的。
 
-First create a class that implements `\Nuwave\Lighthouse\WhereConditions\Operator`. For example:
+首先创建一个实现 `\Nuwave\Lighthouse\WhereConditions\Operator` 的类。
+例如：
 
 ```php
 namespace App\GraphQL;
@@ -333,11 +321,11 @@ use Nuwave\Lighthouse\WhereConditions\Operator;
 class CustomSQLOperator implements Operator { ... }
 ```
 
-An `Operator` has two responsibilities:
-- provide an `enum` definition that will be used throughout the schema
-- handle client input and apply the operators to the query builder 
+ `Operator` 有两项职责：
+- 提供将在整个模式中使用的 `enum` 定义
+- 处理客户端输入并将操作符应用到查询生成器
 
-To tell Lighthouse to use your custom operator class, you have to bind it in a service provider:
+要让 Lighthouse 使用你的自定义操作符类，你必须将它绑定到一个服务提供者（Service Provider）中:
 
 ```php
 namespace App\GraphQL;
@@ -355,8 +343,8 @@ class GraphQLServiceProvider extends ServiceProvider
 }
 ```
 
-Don't forget to register your new service provider in `config/app.php`.
-Make sure to add it after Lighthouse's `\Nuwave\Lighthouse\WhereConditions\WhereConditionsServiceProvider::class`:
+不要忘记在 `config/app.php` 中注册新的服务提供程序（Service Provider）。
+确保添加它后 Lighthouse 的`\Nuwave\Lighthouse\WhereConditions\WhereConditionsServiceProvider::class`：
 
 ```diff
 'providers' => [

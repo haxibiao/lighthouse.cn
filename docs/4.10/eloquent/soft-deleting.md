@@ -1,13 +1,10 @@
-# Soft Deleting
+# 软删除（Soft Deleting）
 
-Lighthouse offers convenient helpers to work with models that utilize
-[soft deletes](https://laravel.com/docs/eloquent#soft-deleting).
+Lighthouse 为使用 [软删除](https://laravel.com/docs/eloquent#soft-deleting) 的模型提供了方便的助手。
 
-## Filter Soft Deleted Models
+## 过滤器软删除模型（Filter Soft Deleted Models）
 
-If your model uses the `Illuminate\Database\Eloquent\SoftDeletes` trait,
-you can add the [`@softDeletes`](../api-reference/directives.md#softdeletes) directive to a field
-to be able to query `onlyTrashed`, `withTrashed` or `withoutTrashed` elements.
+如果你的模型使用了 `Illuminate\Database\Eloquent\SoftDeletes` 特性，你可以在一个字段中添加 [`@softDeletes`](../api-reference/directives.md#softdeletes) 指令，这样就可以只查询 `onlyTrashed` 、 `withTrashed` 或 `withoutTrashed` 元素。
 
 ```graphql
 type Query {
@@ -15,8 +12,7 @@ type Query {
 }
 ```
 
-Lighthouse will automatically add an argument `trashed` to the field definition
-and include the enum `Trashed`.
+Lighthouse 会自动在字段定义中添加一个 `trashed` 的参数，并包括 `Trashed` 的枚举。
 
 ```graphql
 type Query {
@@ -32,8 +28,7 @@ enum Trashed {
     WITHOUT @enum(value: "without")
 }
 ```
-
-You can include soft deleted models in your result with a query like this:
+您可以包括软删除模型在您的结果与查询如下：
 
 ```graphql
 {
@@ -43,10 +38,9 @@ You can include soft deleted models in your result with a query like this:
 }
 ```
 
-## Restoring Soft Deleted Models
+## 恢复软删除模型（Restoring Soft Deleted Models）
 
-If your model uses the `Illuminate\Database\Eloquent\SoftDeletes` trait,
-you can restore your model using the [`@restore`](../api-reference/directives.md#restore) directive.
+如果您的模型使用了 `Illuminate\Database\Eloquent\SoftDeletes` ，您可以使用 [`@restore`](../api-reference/directives.md#restore) 指令恢复您的模型。
 
 ```graphql
 type Mutation {
@@ -54,7 +48,7 @@ type Mutation {
 }
 ```
 
-Simply call the field with the ID of the flight you want to restore.
+只需调用具有要恢复的 flight ID 的字段。
 
 ```graphql
 mutation {
@@ -63,14 +57,12 @@ mutation {
   }
 }
 ```
+此 mutation 将返回已恢复的对象。
 
-This mutation will return the restored object.
+## 永久删除模型（Permanently Deleting Models）
 
-## Permanently Deleting Models
-
-To truly remove a model from the database,
-use the [@forceDelete](../api-reference/directives.md#forcedelete) directive.
-Your model must use the `Illuminate\Database\Eloquent\SoftDeletes` trait. 
+要真正从数据库中删除模型，可以使用 [@forceDelete](../api-reference/directives.md#forcedelete) 指令。
+您的模型必须使用 `Illuminate\Database\Eloquent\SoftDeletes` 特性。
 
 ```graphql
 type Mutation {
@@ -78,7 +70,7 @@ type Mutation {
 }
 ```
 
-Simply call it with the ID of the `Flight` you want to permanently remove.
+只需使用您想永久删除的 `Flight` 的 ID 调用它。
 
 ```graphql
 mutation {
@@ -88,7 +80,7 @@ mutation {
 }
 ```
 
-This mutation will return the deleted object, so you will have a last chance to look at the data.
+此 mutation 将返回已删除的对象，这将是您最后一次机会查看此数据的机会。
 
 ```json
 {

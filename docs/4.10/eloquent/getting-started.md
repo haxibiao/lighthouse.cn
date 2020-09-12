@@ -129,7 +129,7 @@ type Query {
 
 ## 创建
 
-The easiest way to create data on your server is to use the [@create](../api-reference/directives.md#create) directive.
+在服务器上创建数据最简单的方法是使用 [@create](../api-reference/directives.md#create) 指令。
 
 ```graphql
 type Mutation {
@@ -137,7 +137,7 @@ type Mutation {
 }
 ```
 
-This will take the arguments that the `createUser` field receives and use them to create a new model instance.
+这将接受 `createUser` 字段接收的参数，并使用它们创建一个新的模型实例。
 
 ```graphql
 mutation {
@@ -148,7 +148,7 @@ mutation {
 }
 ```
 
-The newly created user is returned as a result:
+结果返回新创建的用户：
 
 ```json
 {
@@ -161,7 +161,7 @@ The newly created user is returned as a result:
 }
 ```
 
-**Note**: Due to Laravel's protections against mass assignment, any arguments used in `@create` or `@update` must be added to the `$fillable` property in your Model. For the above example, we would need the following in `\App\Models\User`:
+**注意**：由于 Laravel 对大规模分配的保护，在 `@create` 或 `@update` 中使用的任何参数必须添加到模型中的 `$fillable` 属性。对于上面的例子，我们需要以下的 `\App\Models\User` ：
 
 ```php
 class User extends Model
@@ -171,11 +171,11 @@ class User extends Model
 }
 ```
 
-For more information, see the [laravel docs](https://laravel.com/docs/eloquent#mass-assignment).
+有关更多信息，请参见 [laravel 文档](https://laravel.com/docs/eloquent#mass-assignment)。
 
-## Update
+## 更新
 
-You can update a model with the [@update](../api-reference/directives.md#update) directive.
+您可以使用 [@update](../api-reference/directives.md#update) 指令更新模型。
 
 ```graphql
 type Mutation {
@@ -183,7 +183,7 @@ type Mutation {
 }
 ```
 
-Since GraphQL allows you to update just parts of your data, it is best to have all arguments except `id` as optional.
+由于 GraphQL 允许您只更新数据的一部分，所以最好将 `id` 以外的所有参数都作为可选参数。
 
 ```graphql
 mutation {
@@ -205,8 +205,7 @@ mutation {
 }
 ```
 
-Be aware that while a create operation will always return a result, provided you pass valid data, the update
-may fail to find the model you provided and return `null`:
+请注意，虽然创建操作将始终返回结果，但如果您传递有效数据，更新可能无法找到您提供的模型，并返回 `null`：
 
 ```json
 {
@@ -216,10 +215,9 @@ may fail to find the model you provided and return `null`:
 }
 ```
 
-## Upsert
+## 插入
 
-Use the [@upsert](../api-reference/directives.md#upsert) directive to update a model with
-a given `id` or create it if it does not exist.
+使用 [@upsert](../api-reference/directives.md#upsert) 指令用给定的 `id` 更新模型，或者在模型不存在时创建它。
 
 ```graphql
 type Mutation {
@@ -227,8 +225,8 @@ type Mutation {
 }
 ```
 
-Since upsert can create or update your data you must have all the minimum fields for a creation as required.
-The `id` is always required and must be marked as fillable in the model.
+由于插入可以创建或更新数据，因此必须拥有创建所需的所有最小字段。
+`id` 总是必需的，并且必须在模型中标记为可填充的。
 
 ```graphql
 mutation {
@@ -252,9 +250,10 @@ mutation {
 }
 ```
 
-## Delete
+## 删除
 
-Deleting models is a breeze using the [@delete](../api-reference/directives.md#delete) directive. Dangerously easy.
+使用 [@delete](../api-reference/directives.md#delete) 指令删除模型轻而易举。
+虽然容易但是危险。
 
 ```graphql
 type Mutation {
@@ -262,7 +261,7 @@ type Mutation {
 }
 ```
 
-Simply call it with the ID of the user you want to delete.
+只需使用想要删除的用户的 ID 调用它。
 
 ```graphql
 mutation {
@@ -272,7 +271,8 @@ mutation {
 }
 ```
 
-This mutation will return the deleted object, so you will have a last chance to look at the data. Use it wisely.
+此 mutation 将返回已删除的对象，因此您将有最后一次机会查看数据。
+合理地使用它。
 
 ```json
 {

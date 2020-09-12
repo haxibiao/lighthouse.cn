@@ -1,13 +1,12 @@
-# Polymorphic Relationships
+# 多态关系（Polymorphic Relationships）
 
-Just like in Laravel, you can define [Polymorphic Relationships](https://laravel.com/docs/eloquent-relationships#polymorphic-relationships) in your schema.
+就像在 Laravel 中一样，您可以在模式中定义 [多态关系](https://laravel.com/docs/eloquent-relationships#polymorphic-relationships) 。
 
-## One to One
+## 一对一
 
-Suppose you have defined a model structure just like the Laravel example docs.
-You have two models, `Post` and `User` which may both have an `Image` assigned.
+假设您已经定义了一个模型结构，就像Laravel示例文档那样。您有两个模型， `Post` 和 `User` ，它们可能都有一个指定的 `Image` 。
 
-Let's start off with the plain type definitions, without any relations.
+让我们从没有任何关系的普通类型定义开始。
 
 ```graphql
 type Post {
@@ -26,9 +25,8 @@ type Image {
 }
 ```
 
-First, let's go ahead and add the relations to `Image` since they are straightforward.
-The field name should match your relationship method name and be annotated
-with the [`@morphOne`](../api-reference/directives.md#morphone) directive.
+首先，让我们继续向 `Image` 添加关系，因为它们很简单。
+字段名应该与您的关系方法名匹配，并使用 [`@morphOne`](../api-reference/directives.md#morphone) 指令进行注释。
 
 ```graphql
 type Post {
@@ -44,20 +42,15 @@ type User {
 }
 ```
 
-Depending on the rules of your application, you might require the relationship
-to be there in some cases, while allowing it to be absent in others. In this
-example, a `Post` must always have an `Image`, while a `User` does not require one.
+根据应用程序的规则，您可能在某些情况下要求存在关系，而在其他情况下允许不存在关系。在本例中， `Post` 必须始终有一个 `Image` ，而 `User` 不需要。
 
-For the inverse, you will need to define a [union type](../the-basics/types.md#union)
-to express that an `Image` might be linked to different models.
+对于相反的情况，您将需要定义一个 [联合类型](../the-basics/types.md#union) 来表示一个 `Image` 可能链接到不同的模型。
 
 ```graphql
 union Imageable = Post | User
 ```
 
-Now, reference the union type from a field in your `Image` type.
-You can use the [`@morphTo`](../api-reference/directives.md#morphto) directive
-for performance optimization.
+现在，从 `Image` 类型的字段中引用联合类型。您可以使用 [`@morphTo`](../api-reference/directives.md#morphto) 指令进行性能优化。
 
 ```graphql
 type Image {
@@ -67,15 +60,11 @@ type Image {
 }
 ```
 
-The default type resolver will be able to determine which concrete object type is returned
-when dealing with Eloquent models, so your definition should just work.
+在处理 Eloquent 模型时，默认的类型解析器将能够确定返回的具体对象类型，因此您的定义应该能够正常工作。
 
-## One to Many
+## 一对多
 
-Based on the above example, you could change your application to allow
-for a `Post` to have many images attached to it.
-The field `images` now returns a list of `Image` object and is annotated
-with the [`@morphMany`](../api-reference/directives.md#morphmany) directive.
+基于上面的示例，您可以修改应用程序，允许一个 `Post` 有许多图片附加到它上面。 `images` 字段现在返回一个 `Image` 对象列表，并使用 [`@morphMany`](../api-reference/directives.md#morphmany) 指令进行注释。
 
 ```graphql
 type Post {

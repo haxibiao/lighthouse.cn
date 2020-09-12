@@ -1,8 +1,8 @@
-# Eloquent Relationships
+# Eloquent 关系（Eloquent Relationships）
 
-Just like in Laravel, you can define [Eloquent Relationships](https://laravel.com/docs/eloquent-relationships) in your schema.
+就像在 Laravel 中一样，您可以在您的模式中定义有 [Eloquent 关系](https://laravel.com/docs/eloquent-relationships)。
 
-Suppose you have defined the following model:
+假设您定义了以下模型：
 
 ```php
 <?php
@@ -27,95 +27,89 @@ class Post extends Model
 }
 ```
 
-Just add fields to your type that are named just like the relationships:
+只需向类型中添加字段，它们的名称就像关系一样：
 
 ```graphql
 type Post {
-  author: User
-  comments: [Comment!]
+    author: User
+    comments: [Comment!]
 }
 ```
 
-Because Laravel relationships can be accessed just like regular properties on your model,
-the default field resolver will work just fine.
+因为可以像访问模型上的常规属性一样访问 Laravel 关系，所以默认的字段解析器工作得很好。
 
-## Avoiding the N+1 performance problem
+## 避免 N+1 性能问题
 
-When accessing Eloquent relationships as properties, the relationship data is "lazy loaded".
-This means the relationship data is not actually loaded until you first access the property. 
+当将 Eloquent 关系作为属性访问时，关系数据是 “延迟加载的”。
+这意味着在您第一次访问该属性之前，关系数据不会实际加载。
 
-This leads to a common performance pitfall that comes with the nested nature of GraphQL queries:
-the so-called N+1 query problem. [Learn more](../performance/n-plus-one.md).
+这导致了 GraphQL 查询嵌套特性带来的一个常见的性能缺陷：所谓的 N+1 查询问题。
+[学习更多的知识](../performance/n-plus-one.md)。
 
-When you decorate your relationship fields with Lighthouse's built-in relationship
-directives, queries are automatically combined through a technique called *batch loading*.
-That means you get fewer database requests and better performance without doing much work.
+当您使用 Lighthouse 的内置关系指令装饰关系字段时，查询将通过一种称为*批量加载*的技术自动组合。
+这意味着无需做太多工作就可以获得更少的数据库请求和更好的性能。
 
-> Batch loading might not provide ideal performance for all use cases. You can turn
-> it off by setting the config option `batchload_relations` to `false`.
+> 批处理加载可能不会为所有用例提供理想的性能。
+> 可以通过将配置选项 `batchload_relations` 设置为 `false` 来关闭它。
 
-## One To One
+## 一对一
 
-Use the [@hasOne](../api-reference/directives.md#hasone) directive to define a [one-to-one relationship](https://laravel.com/docs/eloquent-relationships#one-to-one)
-between two types in your schema.
+使用 [@hasOne](../api-reference/directives.md#hasone) 指令定义模式中两种类型之间的 [一对一关系](https://laravel.com/docs/eloquent-relationships#one-to-one)。
 
 ```graphql
 type User {
-  phone: Phone @hasOne
+    phone: Phone @hasOne
 }
 ```
 
-The inverse can be defined through the [@belongsTo](../api-reference/directives.md#belongsto) directive.
+反向可以通过 [@belongsTo](../api-reference/directives.md#belongsto) 指令定义。
 
 ```graphql
 type Phone {
-  user: User @belongsTo
+    user: User @belongsTo
 }
 ```
 
-## One To Many
+## 一对多
 
-Use the [@hasMany](../api-reference/directives.md#hasmany) directive to define a [one-to-many relationship](https://laravel.com/docs/eloquent-relationships#one-to-many).
+使用 [@hasMany](../api-reference/directives.md#hasmany) 指令定义[一对多关系](https://laravel.com/docs/eloquent-relationships#one-to-many)。
 
 ```graphql
 type Post {
-  comments: [Comment!]! @hasMany
+    comments: [Comment!]! @hasMany
 }
 ```
 
-Again, the inverse is defined with the [@belongsTo](../api-reference/directives.md#belongsto) directive.
+同样，反向是用 [@belongsTo](../api-reference/directives.md#belongsto) 指令定义的。
 
 ```graphql
 type Comment {
-  post: Post! @belongsTo
+    post: Post! @belongsTo
 }
 ```
 
-## Many To Many
+## 多对多
 
-While [many-to-many relationships](https://laravel.com/docs/eloquent-relationships#many-to-many)
-are a bit more work to set up in Laravel, defining them in Lighthouse is a breeze.
-Use the [@belongsToMany](../api-reference/directives.md#belongstomany) directive to define it.
+虽然在 Laravel 中设置 [多对多关系](https://laravel.com/docs/eloquent-relationships#many-to-many) 要做一些工作，但在 Lighthouse 中定义它们却轻而易举。使用 [@belongsToMany](../api-reference/directives.md#belongstomany) 指令来定义它。
 
 ```graphql
 type User {
-  roles: [Role!]! @belongsToMany
+    roles: [Role!]! @belongsToMany
 }
 ```
 
-The inverse works the same.
+设置相反的关系也是一样的。
 
 ```graphql
 type Role {
-  users: [User!]! @belongsToMany
+    users: [User!]! @belongsToMany
 }
 ```
 
-## Renaming relations
+## 重命名关系
 
-When you define a relation, Lighthouse assumes that the field and the relationship
-method have the same name. If you need to name your field differently, you have to
-specify the name of the method.
+当您定义一个关系时，Lighthouse 假设字段和关系方法具有相同的名称。
+如果需要以不同的方式命名字段，则必须指定方法的名称。
 
 ```
 type Post {
@@ -123,7 +117,7 @@ type Post {
 }
 ```
 
-This would work for the following model:
+这将适用于以下模型：
 
 ```php
 <?php
@@ -133,7 +127,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Post extends Model 
+class Post extends Model
 {
     public function user(): BelongsTo
     {
