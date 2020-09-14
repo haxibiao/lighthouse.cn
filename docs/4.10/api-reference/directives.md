@@ -1,8 +1,8 @@
-# Directives
+# 指令（Directives）
 
 ## @all
 
-Fetch all Eloquent models and return the collection as the result for a field.
+提取所有 Eloquent 模型，并返回集合作为字段的结果。
 
 ```graphql
 type Query {
@@ -10,29 +10,28 @@ type Query {
 }
 ```
 
-This assumes your model has the same name as the type you are returning and is defined
-in the default model namespace `App`. [You can change this configuration](../getting-started/configuration.md).
+这假定您的模型与要返回的类型具有相同的名称，并且在默认模型名称空间 App 中定义。[您可以更改此配置](../getting-started/configuration.md)。
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 directive @all(
-  """
-  Specify the class name of the model to use.
-  This is only needed when the default model detection does not work.
-  """
-  model: String
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model detection does not work.
+    """
+    model: String
 
-  """
-  Apply scopes to the underlying query.
-  """
-  scopes: [String!]
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
 ) on FIELD_DEFINITION
 ```
 
-### Examples
+### 例子（Examples）
 
-If you need to use a different model for a single field, you can pass a class name as the `model` argument.
+如果需要为单个字段使用其他模型，则可以将类名称作为 `model` 参数传递。
 
 ```graphql
 type Query {
@@ -42,7 +41,7 @@ type Query {
 
 ## @auth
 
-Return the currently authenticated user as the result of a query.
+返回当前经过身份验证的用户作为查询的结果。
 
 ```graphql
 type Query {
@@ -50,24 +49,23 @@ type Query {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Return the currently authenticated user as the result of a query.
 """
 directive @auth(
-  """
-  Use a particular guard to retreive the user.
-  """
-  guard: String
+    """
+    Use a particular guard to retreive the user.
+    """
+    guard: String
 ) on FIELD_DEFINITION
 ```
 
-### Examples
+### 例子（Examples）
 
-If you need to use a guard besides the default to resolve the authenticated user,
-you can pass the guard name as the `guard` argument
+如果您需要使用默认值以外的其他保护措施来解析经过身份验证的用户，则可以将保护名作为 `guard` 参数传递
 
 ```graphql
 type Query {
@@ -77,7 +75,7 @@ type Query {
 
 ## @belongsTo
 
-Resolves a field through the Eloquent `BelongsTo` relationship.
+通过 Eloquent `BelongsTo` 关系解析字段。
 
 ```graphql
 type Post {
@@ -85,7 +83,7 @@ type Post {
 }
 ```
 
-It assumes both the field and the relationship method to have the same name.
+它假设字段和关系方法都具有相同的名称。
 
 ```php
 <?php
@@ -104,30 +102,29 @@ class Post extends Model
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Resolves a field through the Eloquent `BelongsTo` relationship.
 """
-directive @belongsTo(  
-  """
-  Specify the relationship method name in the model class,
-  if it is named different from the field in the schema.
-  """
-  relation: String
+directive @belongsTo(
+    """
+    Specify the relationship method name in the model class,
+    if it is named different from the field in the schema.
+    """
+    relation: String
 
-  """
-  Apply scopes to the underlying query.
-  """
-  scopes: [String!]
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
 ) on FIELD_DEFINITION
 ```
 
-### Examples
+### 例子（Examples）
 
-The directive accepts an optional `relation` argument if your relationship method
-has a different name than the field.
+如果您的关系方法的名称与字段的名称不同，则该伪指令接受可选的 `relation` 参数。
 
 ```graphql
 type Post {
@@ -137,7 +134,7 @@ type Post {
 
 ## @belongsToMany
 
-Resolves a field through the Eloquent `BelongsToMany` relationship.
+通过 Eloquent `BelongsToMany` 关系解析字段。
 
 ```graphql
 type User {
@@ -145,7 +142,7 @@ type User {
 }
 ```
 
-It assumes both the field and the relationship method to have the same name.
+它假定字段和关系方法都具有相同的名称。
 
 ```php
 <?php
@@ -164,55 +161,54 @@ class User extends Model
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Resolves a field through the Eloquent `BelongsToMany` relationship.
 """
 directive @belongsToMany(
-  """
-  Specify the relationship method name in the model class,
-  if it is named different from the field in the schema.
-  """
-  relation: String
-  
-  """
-  Apply scopes to the underlying query.
-  """
-  scopes: [String!]
+    """
+    Specify the relationship method name in the model class,
+    if it is named different from the field in the schema.
+    """
+    relation: String
 
-  """
-  ALlows to resolve the relation as a paginated list.
-  Allowed values: `paginator`, `connection`.
-  """
-  type: String
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
 
-  """
-  Specify the default quantity of elements to be returned.
-  Only applies when using pagination.
-  """
-  defaultCount: Int
-  
-  """
-  Specify the maximum quantity of elements to be returned.
-  Only applies when using pagination.
-  """
-  maxCount: Int
-  
-  """
-  Specify a custom type that implements the Edge interface
-  to extend edge object.
-  Only applies when using Relay style "connection" pagination.
-  """
-  edgeType: String
+    """
+    ALlows to resolve the relation as a paginated list.
+    Allowed values: `paginator`, `connection`.
+    """
+    type: String
+
+    """
+    Specify the default quantity of elements to be returned.
+    Only applies when using pagination.
+    """
+    defaultCount: Int
+
+    """
+    Specify the maximum quantity of elements to be returned.
+    Only applies when using pagination.
+    """
+    maxCount: Int
+
+    """
+    Specify a custom type that implements the Edge interface
+    to extend edge object.
+    Only applies when using Relay style "connection" pagination.
+    """
+    edgeType: String
 ) on FIELD_DEFINITION
 ```
 
-### Examples
+### 例子（Examples）
 
-The directive accepts an optional `relation` argument if your relationship method
-has a different name than the field.
+如果您的关系方法的名称与字段的名称不同，则该伪指令接受可选的 `relation` 参数。
 
 ```graphql
 type User {
@@ -220,17 +216,15 @@ type User {
 }
 ```
 
-When using the connection `type` argument, you may create your own 
-[Edge type](https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types) which
-may have fields that resolve from the model [pivot](https://laravel.com/docs/5.8/eloquent-relationships#many-to-many) 
-data. You may also add a custom field resolver for fields you want to resolve yourself.
+使用连接 `type` 参数时，您可以创建自己的 [Edge 类型](https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types) ，该类型可能具有可从模型数据 [pivot](https://laravel.com/docs/5.8/eloquent-relationships#many-to-many) 解析的字段。您还可以为要自行解决的字段添加自定义字段解析器。
 
-You may either specify the edge using the `edgetype` argument, or it will automatically
-look for a {type}Edge type to be defined. In this case it would be `RoleEdge`.
+您可以使用 `edgetype` 参数指定边，或者它会自动查找要定义的 {type}Edge 类型。
+在这种情况下，它将是 `RoleEdge` 。
 
 ```graphql
 type User {
-    roles: [Role!]! @belongsToMany(type: "connection", edgeType: "CustomRoleEdge")
+    roles: [Role!]!
+        @belongsToMany(type: "connection", edgeType: "CustomRoleEdge")
 }
 
 type CustomRoleEdge implements Edge {
@@ -251,12 +245,12 @@ Run the `bcrypt` function on the argument it is defined on.
 directive @bcrypt on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
-Deprecated in favour of [`@hash`](#hash).
+不赞成使用 [`@hash`](#hash).
 
 ## @broadcast
 
-Broadcast the results of a mutation to subscribed clients.
-[Read more about subscriptions](../subscriptions/getting-started.md)
+向订阅的客户广播 mutation 的结果。
+[阅读有关订阅的更多信息](../subscriptions/getting-started.md)
 
 ```graphql
 type Mutation {
@@ -265,32 +259,31 @@ type Mutation {
 }
 ```
 
-The `subscription` argument must reference the name of a subscription field. 
+`subscription` 参数必须引用订阅字段的名称。
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Broadcast the results of a mutation to subscribed clients.
 """
 directive @broadcast(
-  """
-  Name of the subscription that should be retriggered as a result of this operation..
-  """
-  subscription: String!
+    """
+    Name of the subscription that should be retriggered as a result of this operation..
+    """
+    subscription: String!
 
-  """
-  Specify whether or not the job should be queued.
-  This defaults to the global config option `lighthouse.subscriptions.queue_broadcasts`.
-  """
-  shouldQueue: Boolean
+    """
+    Specify whether or not the job should be queued.
+    This defaults to the global config option `lighthouse.subscriptions.queue_broadcasts`.
+    """
+    shouldQueue: Boolean
 ) on FIELD_DEFINITION
 ```
 
-### Examples
+### 例子（Examples）
 
-You may override the default queueing behaviour from the configuration by
-passing the `shouldQueue` argument. 
+您可以通过传递 `shouldQueue` 参数来覆盖配置中的默认列队行为。
 
 ```graphql
 type Mutation {
@@ -301,7 +294,7 @@ type Mutation {
 
 ## @builder
 
-Use an argument to modify the query builder for a field.
+使用参数来修改字段的 query 构建器。
 
 ```graphql
 type Query {
@@ -311,8 +304,7 @@ type Query {
 }
 ```
 
-You must point to a `method` which will receive the builder instance
-and the argument value and can apply additional constraints to the query.
+您必须指向一种 `method` ，该方法将接收构建器实例和参数值，并且可以将其他约束应用于查询。
 
 ```php
 namespace App;
@@ -333,28 +325,28 @@ class MyClass
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Use an argument to modify the query builder for a field.
 """
 directive @builder(
-  """
-  Reference a method that is passed the query builder.
-  Consists of two parts: a class name and a method name, separated by an `@` symbol.
-  If you pass only a class name, the method name defaults to `__invoke`.
-  """
-  method: String!
+    """
+    Reference a method that is passed the query builder.
+    Consists of two parts: a class name and a method name, separated by an `@` symbol.
+    If you pass only a class name, the method name defaults to `__invoke`.
+    """
+    method: String!
 ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
 ## @cache
 
-Cache the result of a resolver.
+缓存解析器的结果。
 
-The cache is created on the first request and is cached forever by default.
-Use this for values that change seldom and take long to fetch/compute.
+缓存是在第一个请求上创建的，默认情况下将永远缓存。
+将此值用于很少更改且 获取/计算（fetch/compute）需要很长时间的值。
 
 ```graphql
 type Query {
@@ -362,32 +354,31 @@ type Query {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Cache the result of a resolver.
 """
 directive @cache(
-  """
-  Set the duration it takes for the cache to expire in seconds.
-  If not given, the result will be stored forever.
-  """
-  maxAge: Int
+    """
+    Set the duration it takes for the cache to expire in seconds.
+    If not given, the result will be stored forever.
+    """
+    maxAge: Int
 
-  """
-  Limit access to cached data to the currently authenticated user.
-  When the field is accessible by guest users, this will not have
-  any effect, they will access a shared cache.
-  """
-  private: Boolean = false
+    """
+    Limit access to cached data to the currently authenticated user.
+    When the field is accessible by guest users, this will not have
+    any effect, they will access a shared cache.
+    """
+    private: Boolean = false
 ) on FIELD_DEFINITION
 ```
 
-### Examples
+### 例子（Examples）
 
-You can set an expiration time in seconds
-if you want to invalidate the cache after a while.
+如果要在一段时间后使缓存无效，可以设置以秒为单位的到期时间。
 
 ```graphql
 type Query {
@@ -395,8 +386,8 @@ type Query {
 }
 ```
 
-You can limit the cache to the logged in user making the request by marking it as private.
-This makes sense for data that is specific to a certain user.
+您可以通过将缓存标记为私有来将缓存限制为发出请求的登录用户。
+这对于特定于特定用户的数据是有意义的。
 
 ```graphql
 type Query {
@@ -406,7 +397,7 @@ type Query {
 
 ## @cacheKey
 
-Specify the field to use as a key when creating a cache.
+指定在创建缓存时用作键的字段。
 
 ```graphql
 type GithubProfile {
@@ -415,11 +406,11 @@ type GithubProfile {
 }
 ```
 
-When generating a cached result for a resolver, Lighthouse produces a unique key for each type.
-By default, Lighthouse will look for a field with the `ID` type to generate the key.
-If you'd like to use a different field (i.e., an external API id) you can mark the field with the `@cacheKey` directive.
+为解析器生成缓存的结果时，Lighthouse 为每种类型生成唯一的密钥。
+默认情况下，Lighthouse 将查找具有 `ID` 类型的字段以生成密钥。
+如果您想使用其他字段（即外部 API ID），则可以使用 `@cacheKey` 指令标记该字段。
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
@@ -438,40 +429,39 @@ When `injectArgs` and `args` are used together, the client given
 arguments will be passed before the static args.
 """
 directive @can(
-  """
-  The ability to check permissions for.
-  """
-  ability: String!
+    """
+    The ability to check permissions for.
+    """
+    ability: String!
 
-  """
-  The name of the argument that is used to find a specific model
-  instance against which the permissions should be checked.
-  """
-  find: String
+    """
+    The name of the argument that is used to find a specific model
+    instance against which the permissions should be checked.
+    """
+    find: String
 
-  """
-  Specify the class name of the model to use.
-  This is only needed when the default model detection does not work.
-  """
-  model: String
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model detection does not work.
+    """
+    model: String
 
-  """
-  Pass along the client given input data as arguments to `Gate::check`.
-  """
-  injectArgs: Boolean = false
+    """
+    Pass along the client given input data as arguments to `Gate::check`.
+    """
+    injectArgs: Boolean = false
 
-  """
-  Statically defined arguments that are passed to `Gate::check`.
+    """
+    Statically defined arguments that are passed to `Gate::check`.
 
-  You may pass pass arbitrary GraphQL literals,
-  e.g.: [1, 2, 3] or { foo: "bar" }
-  """
-  args: Mixed
+    You may pass pass arbitrary GraphQL literals,
+    e.g.: [1, 2, 3] or { foo: "bar" }
+    """
+    args: Mixed
 ) on FIELD_DEFINITION
 ```
 
-The name of the returned Type `Post` is used as the Model class, however you may overwrite this by
-passing the `model` argument.
+返回的 Type `Post` 的名称用作 Model 类，但是您可以通过传递 `model` 参数来覆盖它。
 
 ```graphql
 type Mutation {
@@ -480,11 +470,11 @@ type Mutation {
 }
 ```
 
-You can find usage examples of this directive in [the authorization docs](../security/authorization.md#restrict-fields-through-policies).
+您可以在 [授权文档](../security/authorization.md#restrict-fields-through-policies) 中找到此指令的用法示例。
 
 ## @complexity
 
-Perform calculation of a fields complexity score before execution.
+在执行之前执行字段复杂度分数的计算。
 
 ```graphql
 type Query {
@@ -492,27 +482,27 @@ type Query {
 }
 ```
 
-[Read More about query complexity analysis](http://webonyx.github.io/graphql-php/security/#query-complexity-analysis)
+[阅读有关查询复杂性分析的更多信息](http://webonyx.github.io/graphql-php/security/#query-complexity-analysis)
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Customize the calculation of a fields complexity score before execution.
 """
 directive @complexity(
-  """
-  Reference a function to customize the complexity score calculation.
-  Consists of two parts: a class name and a method name, seperated by an `@` symbol.
-  If you pass only a class name, the method name defaults to `__invoke`.
-  """
-  resolver: String
+    """
+    Reference a function to customize the complexity score calculation.
+    Consists of two parts: a class name and a method name, seperated by an `@` symbol.
+    If you pass only a class name, the method name defaults to `__invoke`.
+    """
+    resolver: String
 ) on FIELD_DEFINITION
 ```
 
-### Examples
+### 例子（Examples）
 
-You can provide your own function to calculate complexity.
+您可以提供自己的函数来计算复杂度。
 
 ```graphql
 type Query {
@@ -521,8 +511,7 @@ type Query {
 }
 ```
 
-A custom complexity function may look like the following,
-refer to the [complexity function signature](resolvers.md#complexity-function-signature).
+自定义复杂度函数可能如下所示，请参考 [复杂度函数签名](resolvers.md#complexity-function-signature) 。
 
 ```php
 namespace App\Security;
@@ -541,10 +530,10 @@ class ComplexityAnalyzer {
 
 ## @count
 
-Returns the count of a given relationship or model.
+返回给定关系或模型的计数。
 
 ```graphql
-type User  {
+type User {
     id: ID!
     likes: Int! @count(relation: "likes")
 }
@@ -556,22 +545,22 @@ type Query {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Returns the count of a given relationship or model.
 """
 directive @count(
-  """
-  The relationship which you want to run the count on.
-  """
-  relation: String
-  
-  """
-  The model to run the count on.
-  """
-  model: String
+    """
+    The relationship which you want to run the count on.
+    """
+    relation: String
+
+    """
+    The model to run the count on.
+    """
+    model: String
 ) on FIELD_DEFINITION
 ```
 
@@ -582,22 +571,22 @@ directive @count(
 Create a new Eloquent model with the given arguments.
 """
 directive @create(
-  """
-  Specify the class name of the model to use.
-  This is only needed when the default model detection does not work.
-  """
-  model: String
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model detection does not work.
+    """
+    model: String
 
-  """
-  Specify the name of the relation on the parent model.
-  This is only needed when using this directive as a nested arg
-  resolver and if the name of the relation is not the arg name.
-  """
-  relation: String
+    """
+    Specify the name of the relation on the parent model.
+    This is only needed when using this directive as a nested arg
+    resolver and if the name of the relation is not the arg name.
+    """
+    relation: String
 ) on FIELD_DEFINITION | ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
-Use it on a root mutation field that returns an instance of the Model.
+在返回模型实例的 root mutation 字段上使用它。
 
 ```graphql
 type Mutation {
@@ -605,8 +594,7 @@ type Mutation {
 }
 ```
 
-If you are using a single input object as an argument, you must tell Lighthouse
-to spread out the nested values before applying it to the resolver.
+如果使用单个输入对象作为参数，则必须告诉 Lighthouse 将嵌套的值展开（spread）之后再将其应用于解析程序。
 
 ```graphql
 type Mutation {
@@ -618,8 +606,7 @@ input CreatePostInput {
 }
 ```
 
-If the name of the Eloquent model does not match the return type of the field,
-or is located in a non-default namespace, set it with the `model` argument.
+如果 Eloquent 模型的名称与字段的返回类型不匹配，或者位于非默认名称空间中，请使用 `model` 参数进行设置。
 
 ```graphql
 type Mutation {
@@ -627,7 +614,7 @@ type Mutation {
 }
 ```
 
-This directive can also be used as a [nested arg resolver](../concepts/arg-resolvers.md).
+该指令也可以用作嵌套的 [参数解析器](../concepts/arg-resolvers.md)。
 
 ## @delete
 
@@ -637,28 +624,28 @@ Delete one or more models by their ID.
 The field must have a single non-null argument that may be a list.
 """
 directive @delete(
-  """
-  Set to `true` to use global ids for finding the model.
-  If set to `false`, regular non-global ids are used.
-  """
-  globalId: Boolean = false
+    """
+    Set to `true` to use global ids for finding the model.
+    If set to `false`, regular non-global ids are used.
+    """
+    globalId: Boolean = false
 
-  """
-  Specify the class name of the model to use.
-  This is only needed when the default model detection does not work.
-  """
-  model: String
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model detection does not work.
+    """
+    model: String
 
-  """
-  Specify the name of the relation on the parent model.
-  This is only needed when using this directive as a nested arg
-  resolver and if the name of the relation is not the arg name.
-  """
-  relation: String
+    """
+    Specify the name of the relation on the parent model.
+    This is only needed when using this directive as a nested arg
+    resolver and if the name of the relation is not the arg name.
+    """
+    relation: String
 ) on FIELD_DEFINITION | ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
-Use it on a root mutation field that returns an instance of the Model.
+在返回模型实例的 root mutation 字段上使用它。
 
 ```graphql
 type Mutation {
@@ -666,8 +653,8 @@ type Mutation {
 }
 ```
 
-If you use global ids, you can set the `globalId` argument to `true`.
-Lighthouse will decode the id for you automatically.
+如果使用 global ids，则可以将 `globalId` 参数设置为 `true` 。 
+Lighthouse 将自动为您解析 ID。
 
 ```graphql
 type Mutation {
@@ -675,11 +662,10 @@ type Mutation {
 }
 ```
 
-You can also delete multiple models at once.
-Define a field that takes a list of IDs and returns a collection of the
-deleted models.
+您也可以一次删除多个模型。
+定义一个字段，该字段采用 ID 列表并返回已删除模型的集合。
 
-_In contrast to Laravel mass updates, this does trigger model events._
+_与 Laravel 大量更新相反，这确实会触发模型事件。_
 
 ```graphql
 type Mutation {
@@ -687,8 +673,7 @@ type Mutation {
 }
 ```
 
-If the name of the Eloquent model does not match the return type of the field,
-or is located in a non-default namespace, set it with the `model` argument.
+如果 Eloquent 模型的名称与字段的返回类型不匹配，或者位于非默认名称空间中，请使用 `model` 参数进行设置。
 
 ```graphql
 type Mutation {
@@ -696,35 +681,28 @@ type Mutation {
 }
 ```
 
-This directive can also be used as a [nested arg resolver](../concepts/arg-resolvers.md).
+该指令也可以作用到 [嵌套的参数解析器](../concepts/arg-resolvers.md)。
 
 ```graphql
 type Mutation {
-    updateUser(
-        id: Int
-        deleteTasks: [Int!]! @delete(relation: "tasks")
-    ): User @update
+    updateUser(id: Int, deleteTasks: [Int!]! @delete(relation: "tasks")): User
+        @update
 }
 ```
 
-If the model relates to a single other model through a `HasOne`, `MorphOne`, `BelongsTo` or
-`MorphTo` relationship, you can just pass a Boolean instead of an ID, as there is only one
-possible model that can be deleted.
+如果该模型通过 `HasOne` ， `MorphOne` ， `BelongsTo` 或 `MorphTo` 关系与其他单个模型相关，则可以只传递一个布尔值而不是一个 ID ，因为只能删除一个可能的模型。
 
 ```graphql
 type Mutation {
-    updateTask(
-        id: Int
-        deleteUser: Boolean @delete(relation: "user")
-    ): Task @update
+    updateTask(id: Int, deleteUser: Boolean @delete(relation: "user")): Task
+        @update
 }
 ```
 
 ## @deprecated
 
-You can mark fields as deprecated by adding the `@deprecated` directive and providing a
-`reason`. Deprecated fields are not included in introspection queries unless
-requested and they can still be queried by clients.
+您可以通过添加 `@deprecated` 指令并提供 `reason` 来将字段标记为已弃用。
+除非提出要求，否则自检（introspection）查询中不​​包括不建议使用的字段，客户端仍然可以查询它们。
 
 ```graphql
 type Query {
@@ -733,28 +711,28 @@ type Query {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Marks an element of a GraphQL schema as no longer supported.
 """
-directive @deprecated(  
-  """
-  Explains why this element was deprecated, usually also including a
-  suggestion for how to access supported similar data. Formatted
-  in [Markdown](https://daringfireball.net/projects/markdown/).
-  """
-  reason: String = "No longer supported"
+directive @deprecated(
+    """
+    Explains why this element was deprecated, usually also including a
+    suggestion for how to access supported similar data. Formatted
+    in [Markdown](https://daringfireball.net/projects/markdown/).
+    """
+    reason: String = "No longer supported"
 ) on FIELD_DEFINITION
 ```
 
 ## @field
 
-Assign a resolver function to a field.
+将解析器功能分配给一个字段。
 
-Pass a class and a method to the `resolver` argument and separate them with an `@` symbol.
-If you pass only a class name, the method name defaults to `__invoke`. 
+将类和方法传递给 `resolver` 参数，并用 `@` 符号将它们分开。
+如果仅传递类名，则方法名称默认为 `__invoke` 。
 
 ```graphql
 type Mutation {
@@ -763,41 +741,40 @@ type Mutation {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Assign a resolver function to a field.
 """
 directive @field(
-  """
-  A reference to the resolver function to be used.
-  Consists of two parts: a class name and a method name, seperated by an `@` symbol.
-  If you pass only a class name, the method name defaults to `__invoke`.
-  """
-  resolver: String!
+    """
+    A reference to the resolver function to be used.
+    Consists of two parts: a class name and a method name, seperated by an `@` symbol.
+    If you pass only a class name, the method name defaults to `__invoke`.
+    """
+    resolver: String!
 
-  """
-  Supply additional data to the resolver.
-  """
-  args: [String!]
+    """
+    Supply additional data to the resolver.
+    """
+    args: [String!]
 ) on FIELD_DEFINITION
 ```
 
-### Examples
+### 例子（Examples）
 
-If your field is defined on the root types `Query` or `Mutation`, you can take advantage
-of the default namespaces that are defined in the [configuration](../getting-started/configuration.md). The following
-will look for a class in `App\GraphQL\Queries` by default.
+如果您的字段是在根类型 `Query` 或 `Mutation` 上定义的，则可以利用 [配置](../getting-started/configuration.md) 中定义的默认名称空间。
+下面将默认在 `App\GraphQL\Queries` 中查找一个类。
 
 ```graphql
 type Query {
-  usersTotal: Int @field(resolver: "Statistics@usersTotal")
+    usersTotal: Int @field(resolver: "Statistics@usersTotal")
 }
 ```
 
-Be aware that resolvers are not limited to root fields. A resolver can be used for basic tasks
-such as transforming the value of scalar fields, e.g. reformat a date.
+请注意，解析程序不限于 root fields 。
+解析器（resolver）可用于基本任务，例如转换标量字段的值，例如重新格式化日期。
 
 ```graphql
 type User {
@@ -816,27 +793,27 @@ type Query {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Find a model based on the arguments provided.
 """
-directive @find(  
-  """
-  Specify the class name of the model to use.
-  This is only needed when the default model detection does not work.
-  """
-  model: String
+directive @find(
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model detection does not work.
+    """
+    model: String
 
-  """
-  Apply scopes to the underlying query.
-  """
-  scopes: [String!]
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
 ) on FIELD_DEFINITION
 ```
 
-### Examples
+### 例子（Examples）
 
 This throws when more then one result is returned.
 Use [@first](#first) if you can not ensure that.
@@ -859,27 +836,27 @@ type Query {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Get the first query result from a collection of Eloquent models.
 """
-directive @first(  
-  """
-  Specify the class name of the model to use.
-  This is only needed when the default model detection does not work.
-  """
-  model: String
+directive @first(
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model detection does not work.
+    """
+    model: String
 
-  """
-  Apply scopes to the underlying query.
-  """
-  scopes: [String!]
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
 ) on FIELD_DEFINITION
 ```
 
-### Examples
+### 例子（Examples）
 
 Other then [@find](#find), this will not throw an error if more then one items are in the collection.
 
@@ -896,25 +873,25 @@ type Query {
 
 ```graphql
 """
-Permanently remove one or more soft deleted models by their ID. 
+Permanently remove one or more soft deleted models by their ID.
 The field must have a single non-null argument that may be a list.
 """
 directive @forceDelete(
-  """
-  Set to `true` to use global ids for finding the model.
-  If set to `false`, regular non-global ids are used.
-  """
-  globalId: Boolean = false
+    """
+    Set to `true` to use global ids for finding the model.
+    If set to `false`, regular non-global ids are used.
+    """
+    globalId: Boolean = false
 
-  """
-  Specify the class name of the model to use.
-  This is only needed when the default model detection does not work.
-  """
-  model: String
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model detection does not work.
+    """
+    model: String
 ) on FIELD_DEFINITION
 ```
 
-Use it on a root mutation field that returns an instance of the Model.
+在返回模型实例的 root mutation 字段上使用它。
 
 ```graphql
 type Mutation {
@@ -933,11 +910,11 @@ When dealing with the Enum type in your code,
 you will receive the defined value instead of the string key.
 """
 directive @enum(
-  """
-  The internal value of the enum key.
-  You can use any constant literal value: https://graphql.github.io/graphql-spec/draft/#sec-Input-Values
-  """
-  value: Mixed
+    """
+    The internal value of the enum key.
+    You can use any constant literal value: https://graphql.github.io/graphql-spec/draft/#sec-Input-Values
+    """
+    value: Mixed
 ) on ENUM_VALUE
 ```
 
@@ -961,19 +938,25 @@ type User {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
-directive @eq(  
-  """
+directive @eq(
+    """
+      Specify the database column to compare.
   Specify the database column to compare. 
-  Only required if database column has a different name than the attribute in your schema.
-  """
-  key: String
+      Specify the database column to compare.
+    Specify the database column to compare.
+      Specify the database column to compare.
+    Specify the database column to compare.
+      Specify the database column to compare.
+      Only required if database column has a different name than the attribute in your schema.
+    """
+    key: String
 ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
-### Examples
+### 例子（Examples）
 
 If the name of the argument does not match the database column,
 pass the actual column name as the `key`.
@@ -997,7 +980,7 @@ type Mutation {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
@@ -1005,11 +988,11 @@ Fire an event after a mutation has taken place.
 It requires the `dispatch` argument that should be
 the class name of the event you want to fire.
 """
-directive @event(  
-  """
-  Specify the fully qualified class name (FQCN) of the event to dispatch.
-  """
-  dispatch: String!
+directive @event(
+    """
+    Specify the fully qualified class name (FQCN) of the event to dispatch.
+    """
+    dispatch: String!
 ) on FIELD_DEFINITION
 ```
 
@@ -1027,7 +1010,7 @@ type User {
 Instead of the original ID, the `id` field will now return a base64-encoded String
 that globally identifies the User and can be used for querying the `node` endpoint.
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
@@ -1036,20 +1019,20 @@ When used upon a field, it encodes,
 when used upon an argument, it decodes.
 """
 directive @globalId(
-  """
-  By default, an array of `[$type, $id]` is returned when decoding.
-  You may limit this to returning just one of both.
-  Allowed values: "ARRAY", "TYPE", "ID"
-  """
-  decode: String = "ARRAY"
+    """
+    By default, an array of `[$type, $id]` is returned when decoding.
+    You may limit this to returning just one of both.
+    Allowed values: "ARRAY", "TYPE", "ID"
+    """
+    decode: String = "ARRAY"
 ) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION
 ```
 
-### Examples
+### 例子（Examples）
 
 ```graphql
 type Mutation {
-  deleteNode(id: ID @globalId): Node
+    deleteNode(id: ID @globalId): Node
 }
 ```
 
@@ -1068,11 +1051,11 @@ This is run per field and may allow unauthenticated
 users to still receive partial results.
 """
 directive @guard(
-  """
-  Specify which guards to use, e.g. "api".
-  When not defined, the default driver is used.
-  """
-  with: [String!]
+    """
+    Specify which guards to use, e.g. "api".
+    When not defined, the default driver is used.
+    """
+    with: [String!]
 ) on FIELD_DEFINITION | OBJECT
 ```
 
@@ -1092,10 +1075,7 @@ The most common use case for this is when dealing with passwords:
 
 ```graphql
 type Mutation {
-    createUser(
-        name: String!
-        password: String! @hash
-    ): User!
+    createUser(name: String!, password: String! @hash): User!
 }
 ```
 
@@ -1109,45 +1089,45 @@ type User {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Corresponds to [the Eloquent relationship HasMany](https://laravel.com/docs/eloquent-relationships#one-to-many).
 """
 directive @hasMany(
-  """
-  Specify the relationship method name in the model class,
-  if it is named different from the field in the schema.
-  """
-  relation: String
-  
-  """
-  Apply scopes to the underlying query.
-  """
-  scopes: [String!]
+    """
+    Specify the relationship method name in the model class,
+    if it is named different from the field in the schema.
+    """
+    relation: String
 
-  """
-  ALlows to resolve the relation as a paginated list.
-  Allowed values: `paginator`, `connection`.
-  """
-  type: String
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
 
-  """
-  Specify the default quantity of elements to be returned.
-  Only applies when using pagination.
-  """
-  defaultCount: Int
-  
-  """
-  Specify the maximum quantity of elements to be returned.
-  Only applies when using pagination.
-  """
-  maxCount: Int
+    """
+    ALlows to resolve the relation as a paginated list.
+    Allowed values: `paginator`, `connection`.
+    """
+    type: String
+
+    """
+    Specify the default quantity of elements to be returned.
+    Only applies when using pagination.
+    """
+    defaultCount: Int
+
+    """
+    Specify the maximum quantity of elements to be returned.
+    Only applies when using pagination.
+    """
+    maxCount: Int
 ) on FIELD_DEFINITION
 ```
 
-### Examples
+### 例子（Examples）
 
 You can return the related models paginated by setting the `type`.
 
@@ -1177,27 +1157,27 @@ type User {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Corresponds to [the Eloquent relationship HasOne](https://laravel.com/docs/eloquent-relationships#one-to-one).
 """
 directive @hasOne(
-  """
-  Specify the relationship method name in the model class,
-  if it is named different from the field in the schema.
-  """
-  relation: String
-  
-  """
-  Apply scopes to the underlying query.
-  """
-  scopes: [String!]
+    """
+    Specify the relationship method name in the model class,
+    if it is named different from the field in the schema.
+    """
+    relation: String
+
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
 ) on FIELD_DEFINITION
 ```
 
-### Examples
+### 例子（Examples）
 
 If the name of the relationship on the Eloquent model is different than the field name,
 you can override it by setting `relation`.
@@ -1218,25 +1198,31 @@ type Query {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 directive @in(
-  """
+    """
+      Specify the database column to compare.
   Specify the database column to compare. 
-  Only required if database column has a different name than the attribute in your schema.
-  """
-  key: String
+      Specify the database column to compare.
+    Specify the database column to compare.
+      Specify the database column to compare.
+    Specify the database column to compare.
+      Specify the database column to compare.
+      Only required if database column has a different name than the attribute in your schema.
+    """
+    key: String
 ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
 ## @include
 
-This directive is part of the [GraphQL spec](https://graphql.github.io/graphql-spec/June2018/#sec--include) 
-and it should be noted this directive is a client side and should not be included in your schema. 
+This directive is part of the [GraphQL spec](https://graphql.github.io/graphql-spec/June2018/#sec--include)
+and it should be noted this directive is a client side and should not be included in your schema.
 
-Only includes a field in response if the value passed into this directive is true. This directive is one of the core 
-directives in the GraphQL spec. 
+Only includes a field in response if the value passed into this directive is true. This directive is one of the core
+directives in the GraphQL spec.
 
 ```graphql
 directive @include(
@@ -1246,19 +1232,18 @@ directive @include(
     """
     if: Boolean
 ) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
-
 ```
 
-### Examples
+### 例子（Examples）
 
-The `@include` directive may be provided for fields, fragment spreads, and inline fragments, 
+The `@include` directive may be provided for fields, fragment spreads, and inline fragments,
 and allows for conditional inclusion during execution as described by the `if` argument.
 
-In this example experimentalField will only be queried if the variable $someTest has the value true
+In this example experimentalField will only be queried if the variable \$someTest has the value true
 
 ```graphql
 query myQuery($someTest: Boolean) {
-  experimentalField @include(if: $someTest)
+    experimentalField @include(if: $someTest)
 }
 ```
 
@@ -1268,36 +1253,36 @@ Inject a value from the context object into the arguments.
 
 ```graphql
 type Mutation {
-  createPost(title: String!, content: String!): Post
-    @create
-    @inject(context: "user.id", name: "user_id")
+    createPost(title: String!, content: String!): Post
+        @create
+        @inject(context: "user.id", name: "user_id")
 }
 ```
 
 This is useful to ensure that the authenticated user's `id` is
 automatically used for creating new models and can not be manipulated.
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 directive @inject(
-  """
-  A path to the property of the context that will be injected.
-  If the value is nested within the context, you may use dot notation
-  to get it, e.g. "user.id".
-  """
-  context: String!
+    """
+    A path to the property of the context that will be injected.
+    If the value is nested within the context, you may use dot notation
+    to get it, e.g. "user.id".
+    """
+    context: String!
 
-  """
-  The target name of the argument into which the value is injected.
-  You can use dot notation to set the value at arbitrary depth
-  within the incoming argument.
-  """
-  name: String!
+    """
+    The target name of the argument into which the value is injected.
+    You can use dot notation to set the value at arbitrary depth
+    within the incoming argument.
+    """
+    name: String!
 ) on FIELD_DEFINITION
 ```
 
-### Examples
+### 例子（Examples）
 
 If you are using an Input Object as an argument, you can use dot notation to
 set a nested argument.
@@ -1321,7 +1306,9 @@ Set the `resolveType` argument to a function that returns the implementing Objec
 
 ```graphql
 interface Commentable
-    @interface(resolveType: "App\\GraphQL\\Interfaces\\Commentable@resolveType") {
+    @interface(
+        resolveType: "App\\GraphQL\\Interfaces\\Commentable@resolveType"
+    ) {
     id: ID!
 }
 ```
@@ -1372,19 +1359,19 @@ class Commentable
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Use a custom resolver to determine the concrete type of an interface.
 """
 directive @interface(
-  """
-  Reference to a custom type-resolver function.
-  Consists of two parts: a class name and a method name, seperated by an `@` symbol.
-  If you pass only a class name, the method name defaults to `__invoke`.
-  """
-  resolveType: String!
+    """
+    Reference to a custom type-resolver function.
+    Consists of two parts: a class name and a method name, seperated by an `@` symbol.
+    If you pass only a class name, the method name defaults to `__invoke`.
+    """
+    resolveType: String!
 ) on INTERFACE
 ```
 
@@ -1421,19 +1408,19 @@ Use this if the data is not accessible through simple property access or if you
 want to pass argument to the method.
 """
 directive @method(
-  """
-  Specify the method of which to fetch the data from.
-  Defaults to the name of the field if not given.
-  """
-  name: String
+    """
+    Specify the method of which to fetch the data from.
+    Defaults to the name of the field if not given.
+    """
+    name: String
 
-  """
-  Pass the field arguments to the method, using the argument definition
-  order from the schema to sort them before passing them along.
+    """
+    Pass the field arguments to the method, using the argument definition
+    order from the schema to sort them before passing them along.
 
-  @deprecated This behaviour will default to true in v5 and this setting will be removed.
-  """
-  passOrdered: Boolean = false
+    @deprecated This behaviour will default to true in v5 and this setting will be removed.
+    """
+    passOrdered: Boolean = false
 ) on FIELD_DEFINITION
 ```
 
@@ -1450,10 +1437,8 @@ If you want to pass down only the arguments in sequence, use the `passOrdered` o
 
 ```graphql
 type User {
-    purchasedItemsCount(
-        year: Int!
-        includeReturns: Boolean
-    ): Int @method(passOrdered: true)
+    purchasedItemsCount(year: Int!, includeReturns: Boolean): Int
+        @method(passOrdered: true)
 }
 ```
 
@@ -1492,12 +1477,18 @@ Run Laravel middleware for a specific field or group of fields.
 This can be handy to reuse existing HTTP middleware.
 """
 directive @middleware(
-  """
+    """
+      Specify which middleware to run.
   Specify which middleware to run. 
-  Pass in either a fully qualified class name, an alias or
-  a middleware group - or any combination of them.
-  """
-  checks: [String!]
+      Specify which middleware to run.
+    Specify which middleware to run.
+      Specify which middleware to run.
+    Specify which middleware to run.
+      Specify which middleware to run.
+      Pass in either a fully qualified class name, an alias or
+      a middleware group - or any combination of them.
+    """
+    checks: [String!]
 ) on FIELD_DEFINITION | OBJECT
 ```
 
@@ -1600,48 +1591,48 @@ type Image {
 union Imageable = Post | User
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Corresponds to [Eloquent's MorphMany-Relationship](https://laravel.com/docs/5.8/eloquent-relationships#one-to-one-polymorphic-relations).
 """
 directive @morphMany(
-  """
-  Specify the relationship method name in the model class,
-  if it is named different from the field in the schema.
-  """
-  relation: String
-  
-  """
-  Apply scopes to the underlying query.
-  """
-  scopes: [String!]
+    """
+    Specify the relationship method name in the model class,
+    if it is named different from the field in the schema.
+    """
+    relation: String
 
-  """
-  ALlows to resolve the relation as a paginated list.
-  Allowed values: `paginator`, `connection`.
-  """
-  type: String
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
 
-  """
-  Specify the default quantity of elements to be returned.
-  Only applies when using pagination.
-  """
-  defaultCount: Int
-  
-  """
-  Specify the maximum quantity of elements to be returned.
-  Only applies when using pagination.
-  """
-  maxCount: Int
-  
-  """
-  Specify a custom type that implements the Edge interface
-  to extend edge object.
-  Only applies when using Relay style "connection" pagination.
-  """
-  edgeType: String
+    """
+    ALlows to resolve the relation as a paginated list.
+    Allowed values: `paginator`, `connection`.
+    """
+    type: String
+
+    """
+    Specify the default quantity of elements to be returned.
+    Only applies when using pagination.
+    """
+    defaultCount: Int
+
+    """
+    Specify the maximum quantity of elements to be returned.
+    Only applies when using pagination.
+    """
+    maxCount: Int
+
+    """
+    Specify a custom type that implements the Edge interface
+    to extend edge object.
+    Only applies when using Relay style "connection" pagination.
+    """
+    edgeType: String
 ) on FIELD_DEFINITION
 ```
 
@@ -1661,23 +1652,23 @@ type Image {
 union Imageable = Post | User
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Corresponds to [Eloquent's MorphOne-Relationship](https://laravel.com/docs/5.8/eloquent-relationships#one-to-one-polymorphic-relations).
 """
 directive @morphOne(
-  """
-  Specify the relationship method name in the model class,
-  if it is named different from the field in the schema.
-  """
-  relation: String
-  
-  """
-  Apply scopes to the underlying query.
-  """
-  scopes: [String!]
+    """
+    Specify the relationship method name in the model class,
+    if it is named different from the field in the schema.
+    """
+    relation: String
+
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
 ) on FIELD_DEFINITION
 ```
 
@@ -1693,23 +1684,23 @@ type Image {
 union Imageable = Post | User
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Corresponds to [Eloquent's MorphTo-Relationship](https://laravel.com/docs/5.8/eloquent-relationships#one-to-one-polymorphic-relations).
 """
 directive @morphTo(
-  """
-  Specify the relationship method name in the model class,
-  if it is named different from the field in the schema.
-  """
-  relation: String
-  
-  """
-  Apply scopes to the underlying query.
-  """
-  scopes: [String!]
+    """
+    Specify the relationship method name in the model class,
+    if it is named different from the field in the schema.
+    """
+    relation: String
+
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
 ) on FIELD_DEFINITION
 ```
 
@@ -1722,11 +1713,13 @@ to the `@field` directive used on the `posts` field.
 
 ```graphql
 type Query {
-  posts: [Post!]! @field(resolver: "Post@resolveAll") @namespace(field: "App\\Blog")
+    posts: [Post!]!
+        @field(resolver: "Post@resolveAll")
+        @namespace(field: "App\\Blog")
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
@@ -1736,7 +1729,7 @@ The arguments are a map from directive names to namespaces.
 directive @namespace on FIELD_DEFINITION | OBJECT
 ```
 
-### Examples
+### 例子（Examples）
 
 When used upon an object type or an object type extension, the namespace
 applies to fields of the type as well. This allows you to specify
@@ -1744,7 +1737,7 @@ a common namespace for a group of fields.
 
 ```graphql
 extend type Query @namespace(field: "App\\Blog") {
-  posts: [Post!]! @field(resolver: "Post@resolveAll")
+    posts: [Post!]! @field(resolver: "Post@resolveAll")
 }
 ```
 
@@ -1760,18 +1753,30 @@ type User {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Place a not equals operator `!=` on an Eloquent query.
 """
-directive @neq(  
-  """
+directive @neq(
+    """
+      Specify the database column to compare.
   Specify the database column to compare. 
+      Specify the database column to compare.
+    Specify the database column to compare.
+      Specify the database column to compare.
+    Specify the database column to compare.
+      Specify the database column to compare.
+      Only required if database column has a different name than the attribute in your schema.
+    Only required if database column has a different name than the attribute in your schema.
+      Only required if database column has a different name than the attribute in your schema.
+    Only required if database column has a different name than the attribute in your schema.
+      Only required if database column has a different name than the attribute in your schema.
   Only required if database column has a different name than the attribute in your schema. 
-  """
-  key: String
+      Only required if database column has a different name than the attribute in your schema.
+    """
+    key: String
 ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
@@ -1789,10 +1794,7 @@ This may be useful to logically group arg resolvers.
 
 ```graphql
 type Mutation {
-    createUser(
-        name: String
-        tasks: UserTasksOperations @nest
-    ): User @create
+    createUser(name: String, tasks: UserTasksOperations @nest): User @create
 }
 
 input UserTasksOperations {
@@ -1822,18 +1824,18 @@ When used without any arguments, Lighthouse will attempt
 to resolve the type through a model with the same name.
 """
 directive @node(
-  """
-  Reference to a function that receives the decoded `id` and returns a result.
-  Consists of two parts: a class name and a method name, seperated by an `@` symbol.
-  If you pass only a class name, the method name defaults to `__invoke`.
-  """
-  resolver: String
+    """
+    Reference to a function that receives the decoded `id` and returns a result.
+    Consists of two parts: a class name and a method name, seperated by an `@` symbol.
+    If you pass only a class name, the method name defaults to `__invoke`.
+    """
+    resolver: String
 
-  """
-  Specify the class name of the model to use.
-  This is only needed when the default model detection does not work.
-  """
-  model: String
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model detection does not work.
+    """
+    model: String
 ) on FIELD_DEFINITION
 ```
 
@@ -1868,7 +1870,7 @@ public function byId($id): array {
 
 [Read more](../digging-deeper/relay.md#global-object-identification).
 
-### Definition
+### 定义（Definition）
 
 Behind the scenes, Lighthouse will decode the global id sent from the client
 to find the model by it's primary id in the database.
@@ -1883,18 +1885,18 @@ type Query {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Filter a column by an array using a `whereNotIn` clause.
 """
 directive @notIn(
-  """
-  Specify the name of the column.
-  Only required if it differs from the name of the argument.
-  """
-  key: String
+    """
+    Specify the name of the column.
+    Only required if it differs from the name of the argument.
+    """
+    key: String
 ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
@@ -1966,15 +1968,16 @@ Here's an example of how you could define it in your schema:
 ```graphql
 type Query {
     allPosts(orderBy: _ @orderBy(columnsEnum: "PostColumn")): [Post!]! @all
-    paginatedPosts(orderBy: _ @orderBy(columnsEnum: "PostColumn")): [Post!]! @paginate
+    paginatedPosts(orderBy: _ @orderBy(columnsEnum: "PostColumn")): [Post!]!
+        @paginate
 }
 
 "A custom description for this custom enum."
 enum PostColumn {
-  # Another reason why you might want to have a custom enum is to
-  # correct typos or bad naming in column names.
-  POSTED_AT @enum(value: "postd_timestamp")
-  TITLE @enum(value: "title")
+    # Another reason why you might want to have a custom enum is to
+    # correct typos or bad naming in column names.
+    POSTED_AT @enum(value: "postd_timestamp")
+    TITLE @enum(value: "title")
 }
 ```
 
@@ -1985,14 +1988,7 @@ Querying a field that has an `orderBy` argument looks like this:
 
 ```graphql
 {
-    posts (
-        orderBy: [
-            {
-                column: POSTED_AT
-                order: ASC
-            }
-        ]
-    ) {
+    posts(orderBy: [{ column: POSTED_AT, order: ASC }]) {
         title
     }
 }
@@ -2002,10 +1998,10 @@ You may pass more than one sorting option to add a secondary ordering.
 
 ### Input Definition Example
 
-The `@orderBy` directive can also be applied inside an input field definition when used in conjunction with the [`@spread`](#spread) directive. See below for example: 
+The `@orderBy` directive can also be applied inside an input field definition when used in conjunction with the [`@spread`](#spread) directive. See below for example:
 
 ```graphql
-type Query{
+type Query {
     posts(filter: PostFilterInput @spread): Posts
 }
 
@@ -2018,14 +2014,7 @@ And usage example:
 
 ```graphql
 {
-    posts(filter: {
-        orderBy: [
-            {
-                field: "postedAt"
-                order: ASC
-            }
-        ]
-    }) {
+    posts(filter: { orderBy: [{ field: "postedAt", order: ASC }] }) {
         title
     }
 }
@@ -2038,40 +2027,40 @@ And usage example:
 Query multiple model entries as a paginated list.
 """
 directive @paginate(
-  """
-  Which pagination style to use.
-  Allowed values: `paginator`, `connection`.
-  """
-  type: String = "paginator"
+    """
+    Which pagination style to use.
+    Allowed values: `paginator`, `connection`.
+    """
+    type: String = "paginator"
 
-  """
-  Specify the class name of the model to use.
-  This is only needed when the default model detection does not work.
-  """
-  model: String
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model detection does not work.
+    """
+    model: String
 
-  """
-  Point to a function that provides a Query Builder instance.
-  This replaces the use of a model.
-  """
-  builder: String
+    """
+    Point to a function that provides a Query Builder instance.
+    This replaces the use of a model.
+    """
+    builder: String
 
-  """
-  Apply scopes to the underlying query.
-  """
-  scopes: [String!]
-  
-  """
-  Overwrite the paginate_max_count setting value to limit the
-  amount of items that a user can request per page.
-  """
-  maxCount: Int
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
 
-  """
-  Use a default value for the amount of returned items
-  in case the client does not request it explicitly
-  """
-  defaultCount: Int
+    """
+    Overwrite the paginate_max_count setting value to limit the
+    amount of items that a user can request per page.
+    """
+    maxCount: Int
+
+    """
+    Use a default value for the amount of returned items
+    in case the client does not request it explicitly
+    """
+    defaultCount: Int
 ) on FIELD_DEFINITION
 ```
 
@@ -2247,10 +2236,10 @@ Change the internally used name of a field or argument.
 This does not change the schema from a client perspective.
 """
 directive @rename(
-  """
-  The internal name of an attribute/property/key.
-  """
-  attribute: String!
+    """
+    The internal name of an attribute/property/key.
+    """
+    attribute: String!
 ) on FIELD_DEFINITION | ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
@@ -2271,25 +2260,25 @@ input UserInput {
 
 ```graphql
 """
-Un-delete one or more soft deleted models by their ID. 
+Un-delete one or more soft deleted models by their ID.
 The field must have a single non-null argument that may be a list.
 """
 directive @restore(
-  """
-  Set to `true` to use global ids for finding the model.
-  If set to `false`, regular non-global ids are used.
-  """
-  globalId: Boolean = false
+    """
+    Set to `true` to use global ids for finding the model.
+    If set to `false`, regular non-global ids are used.
+    """
+    globalId: Boolean = false
 
-  """
-  Specify the class name of the model to use.
-  This is only needed when the default model detection does not work.
-  """
-  model: String
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model detection does not work.
+    """
+    model: String
 ) on FIELD_DEFINITION
 ```
 
-Use it on a root mutation field that returns an instance of the Model.
+在返回模型实例的 root mutation 字段上使用它。
 
 ```graphql
 type Mutation {
@@ -2306,22 +2295,22 @@ Works very similar to the [`@delete`](#delete) directive.
 Validate an argument using [Laravel validation](https://laravel.com/docs/validation).
 """
 directive @rules(
-  """
-  Specify the validation rules to apply to the field.
-  This can either be a reference to [Laravel's built-in validation rules](https://laravel.com/docs/validation#available-validation-rules),
-  or the fully qualified class name of a custom validation rule.
+    """
+    Specify the validation rules to apply to the field.
+    This can either be a reference to [Laravel's built-in validation rules](https://laravel.com/docs/validation#available-validation-rules),
+    or the fully qualified class name of a custom validation rule.
 
-  Rules that mutate the incoming arguments, such as `exclude_if`, are not supported
-  by Lighthouse. Use ArgTransformerDirectives or FieldMiddlewareDirectives instead.
-  """
-  apply: [String!]!
+    Rules that mutate the incoming arguments, such as `exclude_if`, are not supported
+    by Lighthouse. Use ArgTransformerDirectives or FieldMiddlewareDirectives instead.
+    """
+    apply: [String!]!
 
-  """
-  Specify the messages to return if the validators fail.
-  Specified as an input object that maps rules to messages,
-  e.g. { email: "Must be a valid email", max: "The input was too long" }
-  """
-  messages: [RulesMessageMap!]
+    """
+    Specify the messages to return if the validators fail.
+    Specified as an input object that maps rules to messages,
+    e.g. { email: "Must be a valid email", max: "The input was too long" }
+    """
+    messages: [RulesMessageMap!]
 ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
@@ -2329,9 +2318,8 @@ For example, this rule ensures that users pass a valid 2 character country code:
 
 ```graphql
 type Query {
-    users(
-      countryCode: String @rules(apply: ["string", "size:2"])
-    ): [User!]! @all
+    users(countryCode: String @rules(apply: ["string", "size:2"])): [User!]!
+        @all
 }
 ```
 
@@ -2343,34 +2331,34 @@ Run validation on an array itself, using [Laravel built-in validation](https://l
 
 ```graphql
 type Mutation {
-  saveIcecream(
-    flavors: [IcecreamFlavor!]! @rulesForArray(apply: ["min:3"])
-  ): Icecream
+    saveIcecream(
+        flavors: [IcecreamFlavor!]! @rulesForArray(apply: ["min:3"])
+    ): Icecream
 }
 ```
 
 Read more in the [validation docs](../security/validation.md#validating-arrays).
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Run validation on an array itself, using [Laravel built-in validation](https://laravel.com/docs/validation).
 """
 directive @rulesForArray(
-  """
-  Specify the validation rules to apply to the field.
-  This can either be a reference to any of Laravel's built-in validation rules: https://laravel.com/docs/validation#available-validation-rules,
-  or the fully qualified class name of a custom validation rule.
-  """
-  apply: [String!]!
+    """
+    Specify the validation rules to apply to the field.
+    This can either be a reference to any of Laravel's built-in validation rules: https://laravel.com/docs/validation#available-validation-rules,
+    or the fully qualified class name of a custom validation rule.
+    """
+    apply: [String!]!
 
-  """
-  Specify the messages to return if the validators fail.
-  Specified as an input object that maps rules to messages,
-  e.g. { email: "Must be a valid email", max: "The input was too long" }
-  """
-  messages: [RulesMessageMap!]
+    """
+    Specify the messages to return if the validators fail.
+    Specified as an input object that maps rules to messages,
+    e.g. { email: "Must be a valid email", max: "The input was too long" }
+    """
+    messages: [RulesMessageMap!]
 ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
@@ -2386,21 +2374,21 @@ scalar DateTime @scalar(class: "DateTimeScalar")
 If you follow the namespace convention, you do not need this directive.
 Lighthouse looks into your configured scalar namespace for a class with the same name.
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Reference a class implementing a scalar definition.
 """
 directive @scalar(
-  """
-  Reference to a class that extends `\GraphQL\Type\Definition\ScalarType`.
-  """
-  class: String!
+    """
+    Reference to a class that extends `\GraphQL\Type\Definition\ScalarType`.
+    """
+    class: String!
 ) on SCALAR
 ```
 
-### Examples
+### 例子（Examples）
 
 If your class is not in the default namespace, pass a fully qualified class name.
 
@@ -2417,10 +2405,10 @@ Adds a scope to the query builder.
 The scope method will receive the client-given value of the argument as the second parameter.
 """
 directive @scope(
-  """
-  The name of the scope.
-  """
-  name: String
+    """
+    The name of the scope.
+    """
+    name: String
 ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
@@ -2428,9 +2416,7 @@ You may use this in combination with field directives such as [`@all`](#all).
 
 ```graphql
 type Query {
-    posts(
-        trending: Boolean @scope(name: "trending")
-    ): [Post!]! @all
+    posts(trending: Boolean @scope(name: "trending")): [Post!]! @all
 }
 ```
 
@@ -2452,21 +2438,21 @@ that influence the database query. The usual query builder `Eloquent\Builder`
 will be replaced by a `Scout\Builder`, which does not support the same methods and operations.
 Regular filters such as [`@eq`](#eq) or [`@in`](#in) still work, but scopes do not.
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Perform a full-text by the given input value.
 """
 directive @search(
-  """
-  Specify a custom index to use for search.
-  """
-  within: String
+    """
+    Specify a custom index to use for search.
+    """
+    within: String
 ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
-### Examples
+### 例子（Examples）
 
 Normally the search will be performed using the index specified by the model's `searchableAs` method.
 However, in some situation a custom index might be needed, this can be achieved by using the argument `within`.
@@ -2479,31 +2465,31 @@ type Query {
 
 ## @skip
 
-This directive is part of the [GraphQL spec](https://graphql.github.io/graphql-spec/June2018/#sec--include) 
-and it should be noted this directive is a client side directive and should not be included in your schema. 
+This directive is part of the [GraphQL spec](https://graphql.github.io/graphql-spec/June2018/#sec--include)
+and it should be noted this directive is a client side directive and should not be included in your schema.
 
-### Definition
+### 定义（Definition）
+
 ```graphql
 directive @skip(
     """
-    If the value passed into the if field is true the field this 
+    If the value passed into the if field is true the field this
     is decorating will not be included in the query response.
     """
     if: Boolean!
-) 
-on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
+) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
 ```
 
-### Examples
+### 例子（Examples）
 
-The `@skip` directive may be provided for fields, fragment spreads, and inline fragments, and allows for conditional 
+The `@skip` directive may be provided for fields, fragment spreads, and inline fragments, and allows for conditional
 exclusion during execution as described by the if argument.
 
-In this example experimentalField will only be queried if the variable $someTest has the value `false`.
+In this example experimentalField will only be queried if the variable \$someTest has the value `false`.
 
 ```graphql
 query myQuery($someTest: Boolean) {
-  experimentalField @skip(if: $someTest)
+    experimentalField @skip(if: $someTest)
 }
 ```
 
@@ -2522,7 +2508,7 @@ The following schema definition from a `.graphql` file:
 
 ```graphql
 type Query {
-  tasks: [Tasks!]! @all @softDeletes
+    tasks: [Tasks!]! @all @softDeletes
 }
 ```
 
@@ -2530,7 +2516,7 @@ Will result in a schema that looks like this:
 
 ```graphql
 type Query {
-  tasks(trashed: Trashed @trashed): [Tasks!]! @all
+    tasks(trashed: Trashed @trashed): [Tasks!]! @all
 }
 ```
 
@@ -2550,10 +2536,7 @@ You may use `@spread` on field arguments or on input object fields:
 
 ```graphql
 type Mutation {
-    updatePost(
-        id: ID!
-        input: PostInput! @spread
-    ): Post @update
+    updatePost(id: ID!, input: PostInput! @spread): Post @update
 }
 
 input PostInput {
@@ -2571,12 +2554,10 @@ The schema does not change, client side usage works as if `@spread` was not ther
 ```graphql
 mutation {
     updatePost(
-        id: 12 
+        id: 12
         input: {
             title: "My awesome title"
-            content: {
-                imageUrl: "http://some.site/image.jpg"
-            }
+            content: { imageUrl: "http://some.site/image.jpg" }
         }
     ) {
         id
@@ -2609,13 +2590,11 @@ you do not need this directive. It is only useful if you need to override the de
 ```graphql
 type Subscription {
     postUpdated(author: ID!): Post
-        @subscription(
-            class: "App\\GraphQL\\Blog\\PostUpdatedSubscription"
-        )
+        @subscription(class: "App\\GraphQL\\Blog\\PostUpdatedSubscription")
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
@@ -2623,10 +2602,10 @@ Reference a class to handle the broadcasting of a subscription to clients.
 The given class must extend `\Nuwave\Lighthouse\Schema\Types\GraphQLSubscription`.
 """
 directive @subscription(
-  """
-  A reference to a subclass of `\Nuwave\Lighthouse\Schema\Types\GraphQLSubscription`.
-  """
-  class: String!
+    """
+    A reference to a subclass of `\Nuwave\Lighthouse\Schema\Types\GraphQLSubscription`.
+    """
+    class: String!
 ) on FIELD_DEFINITION
 ```
 
@@ -2660,7 +2639,7 @@ type Mutation {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
@@ -2736,19 +2715,19 @@ class Person
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Use a custom function to determine the concrete type of unions.
 """
 directive @union(
-  """
-  Reference a function that returns the implementing Object Type.
-  Consists of two parts: a class name and a method name, seperated by an `@` symbol.
-  If you pass only a class name, the method name defaults to `__invoke`.
-  """
-  resolveType: String!
+    """
+    Reference a function that returns the implementing Object Type.
+    Consists of two parts: a class name and a method name, seperated by an `@` symbol.
+    If you pass only a class name, the method name defaults to `__invoke`.
+    """
+    resolveType: String!
 ) on UNION
 ```
 
@@ -2759,28 +2738,28 @@ directive @union(
 Update an Eloquent model with the input values of the field.
 """
 directive @update(
-  """
-  Specify the class name of the model to use.
-  This is only needed when the default model detection does not work.
-  """
-  model: String
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model detection does not work.
+    """
+    model: String
 
-  """
-  Set to `true` to use global ids for finding the model.
-  If set to `false`, regular non-global ids are used.
-  """
-  globalId: Boolean = false
+    """
+    Set to `true` to use global ids for finding the model.
+    If set to `false`, regular non-global ids are used.
+    """
+    globalId: Boolean = false
 
-  """
-  Specify the name of the relation on the parent model.
-  This is only needed when using this directive as a nested arg
-  resolver and if the name of the relation is not the arg name.
-  """
-  relation: String
+    """
+    Specify the name of the relation on the parent model.
+    This is only needed when using this directive as a nested arg
+    resolver and if the name of the relation is not the arg name.
+    """
+    relation: String
 ) on FIELD_DEFINITION | ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
-Use it on a root mutation field that returns an instance of the Model.
+在返回模型实例的 root mutation 字段上使用它。
 
 ```graphql
 type Mutation {
@@ -2812,7 +2791,7 @@ type Mutation {
 }
 ```
 
-This directive can also be used as a [nested arg resolver](../concepts/arg-resolvers.md).
+该指令也可以作用到 [嵌套的参数解析器](../concepts/arg-resolvers.md)。
 
 ## @upsert
 
@@ -2821,24 +2800,24 @@ This directive can also be used as a [nested arg resolver](../concepts/arg-resol
 Create or update an Eloquent model with the input values of the field.
 """
 directive @upsert(
-  """
-  Specify the class name of the model to use.
-  This is only needed when the default model detection does not work.
-  """
-  model: String
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model detection does not work.
+    """
+    model: String
 
-  """
-  Set to `true` to use global ids for finding the model.
-  If set to `false`, regular non-global ids are used.
-  """
-  globalId: Boolean = false
+    """
+    Set to `true` to use global ids for finding the model.
+    If set to `false`, regular non-global ids are used.
+    """
+    globalId: Boolean = false
 
-  """
-  Specify the name of the relation on the parent model.
-  This is only needed when using this directive as a nested arg
-  resolver and if the name of the relation is not the arg name.
-  """
-  relation: String
+    """
+    Specify the name of the relation on the parent model.
+    This is only needed when using this directive as a nested arg
+    resolver and if the name of the relation is not the arg name.
+    """
+    relation: String
 ) on FIELD_DEFINITION | ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
@@ -2852,7 +2831,7 @@ type Mutation {
 }
 ```
 
-This directive can also be used as a [nested arg resolver](../concepts/arg-resolvers.md).
+该指令也可以作用到 [嵌套的参数解析器](../concepts/arg-resolvers.md)。
 
 ## @where
 
@@ -2874,28 +2853,34 @@ type Query {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Use an input value as a [where filter](https://laravel.com/docs/queries#where-clauses).
 """
 directive @where(
-  """
-  Specify the operator to use within the WHERE condition.
-  """
-  operator: String = "="
+    """
+    Specify the operator to use within the WHERE condition.
+    """
+    operator: String = "="
 
-  """
+    """
+      Specify the database column to compare.
   Specify the database column to compare. 
-  Only required if database column has a different name than the attribute in your schema.
-  """
-  key: String
+      Specify the database column to compare.
+    Specify the database column to compare.
+      Specify the database column to compare.
+    Specify the database column to compare.
+      Specify the database column to compare.
+      Only required if database column has a different name than the attribute in your schema.
+    """
+    key: String
 
-  """
-  Use Laravel's where clauses upon the query builder.
-  """
-  clause: String
+    """
+    Use Laravel's where clauses upon the query builder.
+    """
+    clause: String
 ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
@@ -2908,11 +2893,11 @@ The type of the input value this is defined upon should be
 an `input` object with two fields.
 """
 directive @whereBetween(
-  """
-  Specify the database column to compare.
-  Only required if database column has a different name than the attribute in your schema.
-  """
-  key: String
+    """
+    Specify the database column to compare.
+    Only required if database column has a different name than the attribute in your schema.
+    """
+    key: String
 ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
@@ -2920,9 +2905,7 @@ This example defines an `input` to filter that a value is between two dates.
 
 ```graphql
 type Query {
-    posts(
-        created_at: DateRange @whereBetween
-    ): [Post!]! @all
+    posts(created_at: DateRange @whereBetween): [Post!]! @all
 }
 
 input DateRange {
@@ -2956,22 +2939,29 @@ You may use the `key` argument to look into the JSON content:
 
 ```graphql
 type Query {
-    posts(tags: [String]! @whereJsonContains(key: "tags->recent")): [Post!]! @all
+    posts(tags: [String]! @whereJsonContains(key: "tags->recent")): [Post!]!
+        @all
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Use an input value as a [whereJsonContains filter](https://laravel.com/docs/queries#json-where-clauses).
 """
 directive @whereJsonContains(
-  """
+    """
+      Specify the database column and path inside the JSON to compare.
   Specify the database column and path inside the JSON to compare. 
-  Only required if database column has a different name than the attribute in your schema.
-  """
-  key: String
+      Specify the database column and path inside the JSON to compare.
+    Specify the database column and path inside the JSON to compare.
+      Specify the database column and path inside the JSON to compare.
+    Specify the database column and path inside the JSON to compare.
+      Specify the database column and path inside the JSON to compare.
+      Only required if database column has a different name than the attribute in your schema.
+    """
+    key: String
 ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
@@ -2994,7 +2984,7 @@ input DateRange {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
@@ -3003,11 +2993,17 @@ The type of the input value this is defined upon should be
 an `input` object with two fields.
 """
 directive @whereNotBetween(
-  """
+    """
+      Specify the database column to compare.
   Specify the database column to compare. 
-  Only required if database column has a different name than the attribute in your schema.
-  """
-  key: String
+      Specify the database column to compare.
+    Specify the database column to compare.
+      Specify the database column to compare.
+    Specify the database column to compare.
+      Specify the database column to compare.
+      Only required if database column has a different name than the attribute in your schema.
+    """
+    key: String
 ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 ```
 
@@ -3023,23 +3019,23 @@ type User {
 }
 ```
 
-### Definition
+### 定义（Definition）
 
 ```graphql
 """
 Eager-load an Eloquent relation.
 """
 directive @with(
-  """
-  Specify the relationship method name in the model class,
-  if it is named different from the field in the schema.
-  """
-  relation: String
+    """
+    Specify the relationship method name in the model class,
+    if it is named different from the field in the schema.
+    """
+    relation: String
 
-  """
-  Apply scopes to the underlying query.
-  """
-  scopes: [String!]
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
 ) on FIELD_DEFINITION
 ```
 
