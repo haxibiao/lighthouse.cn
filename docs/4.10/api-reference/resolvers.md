@@ -1,8 +1,8 @@
-# Resolvers
+# 解析器（Resolvers）
 
-## Resolver function signature
+## 解析器功能签名（Resolver function signature）
 
-Resolvers are always called with the same 4 arguments:
+解析器始终使用相同的 4 个参数调用：
 
 ```php
 <?php
@@ -13,29 +13,23 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 function ($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
 ```
 
-1. `$rootValue`: The result that was returned from the parent field.
-When resolving a field that sits on one of the root types (`Query`, `Mutation`) this is `null`.
-2. `array $args`: The arguments that were passed into the field.
-For example, for a field call like `user(name: "Bob")` it would be `['name' => 'Bob']`
-3. `GraphQLContext $context`: Arbitrary data that is shared between all fields of a single query.
-Lighthouse passes in an instance of `Nuwave\Lighthouse\Schema\Context` by default.
-4. `ResolveInfo $resolveInfo`: Information about the query itself,
-such as the execution state, the field name, path to the field from the root, and more.
+1. `$rootValue` ：从父字段返回的结果，解析位于 root types 之一（`Query`， `Mutation`）上的字段时，此字段为 `null` 。
+2. `array $args` ：传递给该字段的参数，例如，对于像 `user(name: "Bob")` 这样的字段调用，它将是 `['name' => 'Bob']`
+3. `GraphQLContext $context` ：在单个查询的所有字段之间共享的任意数据，默认情况下，Lighthouse 会传入 `Nuwave\Lighthouse\Schema\Context` 的实例。
+4. `ResolveInfo $resolveInfo` ：有关 query 本身的信息，例如执行状态（execution state），字段名称（field name），从 root 到字段（field）的路径等。
 
-The return value of this must fit the return type defined for the corresponding field from the schema. 
+此方法的返回值必须适合为模式中的相应字段定义的返回类型。
 
-## Complexity function signature
+## 复杂度函数签名（Complexity function signature）
 
-The complexity function is used to calculate a query complexity score for a field.
-You can define your own complexity function with the [@complexity](../api-reference/directives.md#complexity) directive.
+复杂度函数用于计算字段的查询复杂度得分。
+您可以使用 [@complexity](../api-reference/directives.md#complexity) 指令定义自己的复杂度函数。
 
 ```php
 function (int $childrenComplexity, array $args): int
 ```
 
-1. `$childrenComplexity`: The complexity of the children of the field. In case you expect to return
-multiple children, it can be useful to do some maths on this.
-2. `array $args`: The arguments that were passed into the field.
-For example, for a field call like `user(name: "Bob")` it would be `['name' => 'Bob']`
+1. `$childrenComplexity` ：子领域的复杂性，如果您希望返回多个 children ，那么对此做一些数学运算可能会很有用。
+2. `array $args` ：传递到字段中的参数，例如，对于像 `user(name: "Bob")` 这样的字段调用，应该是 `['name' => 'Bob']`
 
-Read more about query complexity in the [webonyx/graphql-php docs](http://webonyx.github.io/graphql-php/security/#query-complexity-analysis)
+在 [webonyx/graphql-php 文档](http://webonyx.github.io/graphql-php/security/#query-complexity-analysis) 中了解更多关于查询复杂性的信息。
