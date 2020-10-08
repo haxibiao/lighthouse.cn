@@ -1,72 +1,67 @@
-# Artisan Commands
+# Artisan 指令（Artisan Commands）
 
-Lighthouse provides some convenient artisan commands. All of them
-are namespaced under `lighthouse`.
+Lighthouse 提供了一些方便的 Artisan 指令。所有这些都在 `lighthouse` 开始命名。
 
 ## clear-cache
 
-Clear the cache for the GraphQL AST.
+清除 GraphQL AST 的缓存。
 
     php artisan lighthouse:clear-cache
-   
+
 ## ide-helper
 
-Create a schema containing all server-side directives.
-This will allow some IDEs to do code completion in your GraphQL-schema.
+创建一个包含所有服务器端指令的模式。这将允许一些 IDEs 在您的 GraphQL-schema 中完成代码。
 
-    php artisan lighthouse:ide-helper 
+    php artisan lighthouse:ide-helper
 
 ## interface
 
-Create a class for a GraphQL interface type.
+为 GraphQL 接口类型创建一个类。
 
     php artisan lighthouse:interface <name>
 
 ## mutation
 
-Create a class for a single field on the root Mutation type.
+为 root Mutation 类型上的单个字段创建一个类。
 
     php artisan lighthouse:mutation <name>
 
 ## print-schema
 
-Compile the final GraphQL schema and print the result.
+编译最后的 GraphQL 模式并打印结果。
 
     php artisan lighthouse:print-schema
 
-This can be quite useful, as the root `.graphql` files do not necessarily
-contains the whole schema. Schema imports, native PHP types and schema manipulation
-may influence the final schema.
+这可能是非常有用的，因为 root `.graphql` 文件不一定包含整个模式。模式导入、原生 PHP 类型和模式操作可能会影响最终的模式。
 
-Use the `-W` / `--write` option to output the schema to the default file storage
-(usually `storage/app`) as `lighthouse-schema.graphql`.
+使用 `-W` / `--write` 选项默认文件存储 `lighthouse-schema.graphql`(`storage/app`)。
 
 ## query
 
-Create a class for a single field on the root Query type.
+为 root Query 类型的单个字段创建一个类。
 
     php artisan lighthouse:query <name>
 
 ## scalar
 
-Create a class for a GraphQL scalar type.
+为 GraphQL scalar 类型创建一个类。
 
     php artisan lighthouse:scalar <name>
 
 ## subscription
 
-Create a class for a single field on the root Subscription type.
+为 root Subscription 类型上的单个字段创建类。
 
     php artisan lighthouse:subscription <name>
 
 ## union
 
-Create a class for a GraphQL union type.
+为 GraphQL union 类型创建一个类。
 
     php artisan lighthouse:union <name>
 
 ## validate-schema
 
-Validate the GraphQL schema definition.
+验证 GraphQL schema 定义。
 
     php artisan lighthouse:validate-schema

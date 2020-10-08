@@ -1,9 +1,8 @@
-# Events
+# 事件（Events）
 
-This reference lists the events that Lighthouse dispatches during a request in order
-of execution.
+这个引用列表 Lighthouse 分派的事件在一个请求的执行顺序。
 
-All events reside in the namespace `\Nuwave\Lighthouse\Events`.
+所有事件都位于命名空间 `\Nuwave\Lighthouse\Events` 中。
 
 ## StartRequest
 
